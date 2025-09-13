@@ -3,533 +3,490 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Game Offline - Main Game Tanpa Internet</title>
+    <title>Dans4you - Layanan Digital Terbaik</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        /* Reset & Base Styles */
+        :root {
+            --primary-color: #6a11cb;
+            --secondary-color: #2575fc;
+            --accent-color: #ff4e50;
+            --dark-color: #121212;
+            --light-color: #f8f9fa;
+            --text-color: #333;
+            --card-bg: rgba(255, 255, 255, 0.1);
+            --gradient: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+        }
+
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
-        
+
         body {
-            background-color: #121212;
-            color: #f0f0f0;
-            padding-bottom: 60px; /* Space for bottom navbar */
+            background: linear-gradient(to bottom, #0f0c29, #302b63, #24243e);
+            color: var(--light-color);
+            min-height: 100vh;
+            background-attachment: fixed;
+            line-height: 1.6;
         }
-        
-        /* Header & Navigation */
-        .top-nav {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 12px 16px;
-            background-color: #1a1a1a;
-            position: sticky;
-            top: 0;
-            z-index: 100;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
         }
-        
-        .logo {
-            height: 32px;
-            width: auto;
-        }
-        
-        .menu-btn {
-            background: none;
-            border: none;
-            color: white;
-            font-size: 24px;
-            cursor: pointer;
-        }
-        
-        /* Hero Banner */
-        .hero-banner {
+
+        header {
+            text-align: center;
+            padding: 40px 0 20px;
             position: relative;
-            height: 40vh;
-            overflow: hidden;
         }
-        
-        .hero-banner img {
+
+        .logo {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            margin: 0 auto 20px;
+            border: 3px solid var(--light-color);
+            box-shadow: 0 0 20px rgba(106, 17, 203, 0.7);
+            overflow: hidden;
+            transition: transform 0.3s ease;
+        }
+
+        .logo:hover {
+            transform: scale(1.05);
+        }
+
+        .logo img {
             width: 100%;
             height: 100%;
             object-fit: cover;
         }
-        
-        .hero-content {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            padding: 20px;
-            background: linear-gradient(transparent, rgba(0, 0, 0, 0.8));
+
+        h1 {
+            font-size: 3.5rem;
+            margin-bottom: 10px;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+            letter-spacing: 1px;
         }
-        
-        .download-btn {
-            display: block;
-            width: 100%;
-            padding: 14px;
-            background-color: #4a00e0;
-            color: white;
-            border: none;
-            border-radius: 8px;
-            font-weight: bold;
-            font-size: 16px;
-            margin-top: 12px;
-            cursor: pointer;
+
+        h2 {
+            font-size: 1.5rem;
+            font-weight: 300;
+            margin-bottom: 30px;
+            color: #d0d0d0;
         }
-        
-        /* Game List */
-        .section-title {
-            padding: 16px;
-            font-size: 20px;
-            font-weight: bold;
-        }
-        
-        .game-card {
-            display: flex;
-            padding: 12px 16px;
-            border-bottom: 1px solid #2a2a2a;
-        }
-        
-        .game-card img {
-            width: 80px;
-            height: 80px;
-            object-fit: cover;
-            border-radius: 12px;
-            margin-right: 16px;
-        }
-        
-        .game-info {
-            flex: 1;
-        }
-        
-        .game-title {
-            font-weight: bold;
-            margin-bottom: 4px;
-        }
-        
-        .game-desc {
-            font-size: 14px;
-            color: #aaa;
-        }
-        
-        /* Library Page */
-        .search-bar {
-            padding: 16px;
-            background-color: #1a1a1a;
-        }
-        
-        .search-container {
-            display: flex;
-            align-items: center;
-            background-color: #2a2a2a;
-            border-radius: 24px;
-            padding: 8px 16px;
-        }
-        
-        .search-container input {
-            flex: 1;
-            background: none;
-            border: none;
-            color: white;
-            padding: 8px;
-            outline: none;
-        }
-        
-        .filter-container {
-            padding: 12px 16px;
-            display: flex;
-            overflow-x: auto;
-            gap: 10px;
-            background-color: #1a1a1a;
-        }
-        
-        .filter-btn {
-            padding: 8px 16px;
-            background-color: #2a2a2a;
-            border: none;
-            border-radius: 20px;
-            color: white;
-            font-size: 14px;
-            white-space: nowrap;
-        }
-        
-        .filter-btn.active {
-            background-color: #4a00e0;
-        }
-        
-        .grid-view {
+
+        .products {
             display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 12px;
-            padding: 16px;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin: 40px 0;
         }
-        
-        .game-card-grid {
-            background-color: #1e1e1e;
-            border-radius: 12px;
+
+        .product-card {
+            background: var(--card-bg);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            position: relative;
             overflow: hidden;
         }
-        
-        .game-card-grid img {
-            width: 100%;
-            height: 120px;
-            object-fit: cover;
-        }
-        
-        .game-card-content {
-            padding: 12px;
-        }
-        
-        .game-size {
-            font-size: 12px;
-            color: #888;
-            margin: 4px 0;
-        }
-        
-        .download-btn-small {
-            display: block;
-            width: 100%;
-            padding: 8px;
-            background-color: #4a00e0;
-            color: white;
-            border: none;
-            border-radius: 6px;
-            font-size: 12px;
-            margin-top: 8px;
-            cursor: pointer;
-        }
-        
-        /* Detail Game Page */
-        .game-cover {
-            width: 100%;
-            height: 40vh;
-            object-fit: cover;
-        }
-        
-        .game-header {
-            padding: 16px;
-        }
-        
-        .game-genre {
-            display: inline-block;
-            padding: 4px 12px;
-            background-color: #2a2a2a;
-            border-radius: 16px;
-            font-size: 14px;
-            margin-top: 8px;
-        }
-        
-        .game-details {
-            padding: 16px;
-        }
-        
-        .info-item {
-            display: flex;
-            justify-content: space-between;
-            padding: 8px 0;
-            border-bottom: 1px solid #2a2a2a;
-        }
-        
-        .screenshot-scroll {
-            display: flex;
-            overflow-x: auto;
-            gap: 12px;
-            padding: 16px;
-            scroll-snap-type: x mandatory;
-        }
-        
-        .screenshot-scroll img {
-            width: 80%;
-            height: 150px;
-            object-fit: cover;
-            border-radius: 8px;
-            scroll-snap-align: start;
-        }
-        
-        .detail-download-btn {
-            position: fixed;
-            bottom: 70px;
-            left: 16px;
-            right: 16px;
-            padding: 16px;
-            background-color: #4a00e0;
-            color: white;
-            border: none;
-            border-radius: 12px;
-            font-weight: bold;
-            font-size: 18px;
-            cursor: pointer;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-        }
-        
-        /* Bottom Navigation */
-        .bottom-nav {
-            position: fixed;
-            bottom: 0;
+
+        .product-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
             left: 0;
-            right: 0;
-            display: flex;
-            justify-content: space-around;
-            background-color: #1a1a1a;
-            padding: 12px;
-            border-top: 1px solid #2a2a2a;
+            width: 100%;
+            height: 5px;
+            background: var(--gradient);
         }
-        
-        .nav-item {
+
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
+        }
+
+        .product-title {
+            font-size: 1.4rem;
+            margin-bottom: 15px;
+            color: #fff;
+            text-align: center;
+        }
+
+        .product-price {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--accent-color);
+            text-align: center;
+            margin: 15px 0;
+            text-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+        }
+
+        .product-features {
+            list-style-type: none;
+            margin: 20px 0;
+        }
+
+        .product-features li {
+            padding: 8px 0;
+            border-bottom: 1px dashed rgba(255, 255, 255, 0.1);
             display: flex;
-            flex-direction: column;
             align-items: center;
+        }
+
+        .product-features li:last-child {
+            border-bottom: none;
+        }
+
+        .product-features i {
+            margin-right: 10px;
+            color: var(--secondary-color);
+        }
+
+        .promo-badge {
+            position: absolute;
+            top: 15px;
+            right: -30px;
+            background: var(--accent-color);
+            color: white;
+            padding: 5px 30px;
+            transform: rotate(45deg);
+            font-size: 0.8rem;
+            font-weight: bold;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .description {
+            background: var(--card-bg);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 25px;
+            margin: 40px 0;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .description h3 {
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            text-align: center;
+            color: #fff;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .feature-item {
+            display: flex;
+            align-items: center;
+            background: rgba(0, 0, 0, 0.2);
+            padding: 15px;
+            border-radius: 10px;
+        }
+
+        .feature-item i {
+            font-size: 1.5rem;
+            margin-right: 15px;
+            color: var(--secondary-color);
+        }
+
+        .contact-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin: 40px 0;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 15px 30px;
+            border-radius: 50px;
             text-decoration: none;
-            color: #888;
-            font-size: 12px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            border: none;
+            cursor: pointer;
+            font-size: 1.1rem;
         }
-        
-        .nav-item.active {
-            color: #4a00e0;
+
+        .btn-whatsapp {
+            background: #25D366;
+            color: white;
         }
-        
-        .nav-icon {
-            font-size: 20px;
-            margin-bottom: 4px;
+
+        .btn-telegram {
+            background: #0088cc;
+            color: white;
         }
-        
-        /* Page Management */
-        .page {
-            display: none;
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
         }
-        
-        .page.active {
-            display: block;
+
+        .btn i {
+            margin-right: 10px;
+            font-size: 1.3rem;
+        }
+
+        footer {
+            text-align: center;
+            padding: 30px 0;
+            margin-top: 40px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            font-size: 0.9rem;
+            color: #aaa;
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2.5rem;
+            }
+            
+            h2 {
+                font-size: 1.2rem;
+            }
+            
+            .products {
+                grid-template-columns: 1fr;
+            }
+            
+            .contact-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .btn {
+                width: 100%;
+                max-width: 300px;
+            }
         }
     </style>
 </head>
 <body>
-    <!-- Home Page -->
-    <div id="home-page" class="page active">
-        <div class="top-nav">
-            <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAiIGhlaWdodD0iNDAiIHZpZXdCb3g9IjAgMCAxMDAgNDAiPjxwYXRoIGZpbGw9IiM0YTAwZTAiIGQ9Ik0yMCAxMGg2MHYyMGgtNjB6Ii8+PHRleHQgeD0iNTAiIHk9IjI1IiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iMTQiIGZpbGw9IiNmZmYiIHRleHQtYW5jaG9yPSJtaWRkbGUiPkdBTEVSWTwvdGV4dD48L3N2Zz4=" alt="Game Gallery" class="logo">
-            <button class="menu-btn">☰</button>
-        </div>
-        
-        <div class="hero-banner">
-            <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0MDAiIGhlaWdodD0iMzAwIiB2aWV3Qm94PSIwIDAgNDAwIDMwMCI+PHJlY3Qgd2lkdGg9IjQwMCIgaGVpZ2h0PSIzMDAiIGZpbGw9IiMzMzMiLz48dGV4dCB4PSIyMDAiIHk9IjE1MCIgZm9udC1mYW1pbHk9IkFyaWFsIiBmb250LXNpemU9IjI0IiBmaWxsPSIjZmZmIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj5HQU1FIEJBTk5FUjwvdGV4dD48L3N2Zz4=" alt="Game Banner">
-            <div class="hero-content">
-                <h2>Game Terpopuler Bulan Ini</h2>
-                <button class="download-btn">Download Sekarang</button>
+    <div class="container">
+        <header>
+            <div class="logo">
+                <img src="https://img1.pixhost.to/images/8189/634369362_ochobot.jpg" alt="Dans4you Logo">
             </div>
-        </div>
-        
-        <h2 class="section-title">Game Favorit</h2>
-        
-        <div class="game-list">
-            <div class="game-card">
-                <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI4MCIgaGVpZ2h0PSI4MCIgdmlld0JveD0iMCAwIDgwIDgwIj48cmVjdCB3aWR0aD0iODAiIGhlaWdodD0iODAiIGZpbGw9IiM0NDQiLz48dGV4dCB4PSI0MCIgeT0iNDAiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSIxMiIgZmlsbD0iI2ZmZiIgdGV4dC1hbmNob3I9Im1pZGRsZSI+R0FNRTwvdGV4dD48L3N2Zz4=" alt="Game 1">
-                <div class="game-info">
-                    <div class="game-title">Epic Adventure</div>
-                    <div class="game-desc">Petualangan seru di dunia fantasi yang menakjubkan</div>
-                </div>
-            </div>
-            
-            <div class="game-card">
-                <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI4MCIgaGVpZ2h0PSI4MCIgdmlld0JveD0iMCAwIDgwIDgwIj48cmVjdCB3aWR0aD0iODAiIGhlaWdodD0iODAiIGZpbGw9IiM1NTUiLz48dGV4dCB4PSI0MCIgeT0iNDAiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSIxMiIgZmlsbD0iI2ZmZiIgdGV4dC1hbmNob3I9Im1pZGRsZSI+R0FNRTwvdGV4dD48L3N2Zz4=" alt="Game 2">
-                <div class="game-info">
-                    <div class="game-title">Racing Extreme</div>
-                    <div class="game-desc">Balapan mobil tercepat dengan grafis memukau</div>
-                </div>
-            </div>
-            
-            <div class="game-card">
-                <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI4MCIgaGVpZ2h0PSI4MCIgdmlld0JveD0iMCAwIDgwIDgwIj48cmVjdCB3aWR0aD0iODAiIGhlaWdodD0iODAiIGZpbGw9IiM2NjYiLz48dGV4dCB4PSI0MCIgeT0iNDAiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSIxMiIgZmlsbD0iI2ZmZiIgdGV4dC1hbmNob3I9Im1pZGRsZSI+R0FNRTwvdGV4dD48L3N2Zz4=" alt="Game 3">
-                <div class="game-info">
-                    <div class="game-title">Puzzle Master</div>
-                    <div class="game-desc">Kumpulan puzzle menarik untuk mengasah otak</div>
-                </div>
-            </div>
-        </div>
-    </div>
-    
-    <!-- Library Page -->
-    <div id="library-page" class="page">
-        <div class="top-nav">
-            <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAiIGhlaWdodD0iNDAiIHZpZXdCb3g9IjAgMCAxMDAgNDAiPjxwYXRoIGZpbGw9IiM0YTAwZTAiIGQ9Ik0yMCAxMGg2MHYyMGgtNjB6Ii8+PHRleHQgeD0iNTAiIHk9IjI1IiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iMTQiIGZpbGw9IiNmZmYiIHRleHQtYW5jaG9yPSJtaWRkbGUiPkdBTEVSWTwvdGV4dD48L3N2Zz4=" alt="Game Gallery" class="logo">
-            <button class="menu-btn">☰</button>
-        </div>
-        
-        <div class="search-bar">
-            <div class="search-container">
-                <span>🔍</span>
-                <input type="text" placeholder="Cari game offline...">
-            </div>
-        </div>
-        
-        <div class="filter-container">
-            <button class="filter-btn active">Semua</button>
-            <button class="filter-btn">Action</button>
-            <button class="filter-btn">RPG</button>
-            <button class="filter-btn">Strategy</button>
-            <button class="filter-btn">Casual</button>
-        </div>
-        
-        <div class="grid-view">
-            <div class="game-card-grid">
-                <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMjAiIGhlaWdodD0iMTIwIiB2aWV3Qm94PSIwIDAgMTIwIDEyMCI+PHJlY3Qgd2lkdGg9IjEyMCIgaGVpZ2h0PSIxMjAiIGZpbGw9IiM0NDQiLz48dGV4dCB4PSI2MCIgeT0iNjAiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSIxNCIgZmlsbD0iI2ZmZiIgdGV4dC1hbmNob3I9Im1pZGRsZSI+R0FNRTwvdGV4dD48L3N2Zz4=" alt="Game 1">
-                <div class="game-card-content">
-                    <div class="game-title">Epic Adventure</div>
-                    <div class="game-size">128 MB</div>
-                    <button class="download-btn-small">Download</button>
-                </div>
-            </div>
-            
-            <div class="game-card-grid">
-                <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMjAiIGhlaWdodD0iMTIwIiB2aWV3Qm94PSIwIDAgMTIwIDEyMCI+PHJlY3Qgd2lkdGg9IjEyMCIgaGVpZ2h0PSIxMjAiIGZpbGw9IiM1NTUiLz48dGV4dCB4PSI2MCIgeT0iNjAiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSIxNCIgZmlsbD0iI2ZmZiIgdGV4dC1hbmNob3I9Im1pZGRsZSI+R0FNRTwvdGV4dD48L3N2Zz4=" alt="Game 2">
-                <div class="game-card-content">
-                    <div class="game-title">Racing Extreme</div>
-                    <div class="game-size">98 MB</div>
-                    <button class="download-btn-small">Download</button>
-                </div>
-            </div>
-            
-            <div class="game-card-grid">
-                <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMjAiIGhlaWdodD0iMTIwIiB2aWV3Qm94PSIwIDAgMTIwIDEyMCI+PHJlY3Qgd2lkdGg9IjEyMCIgaGVpZ2h0PSIxMjAiIGZpbGw9IiM2NjYiLz48dGV4dCB4PSI2MCIgeT0iNjAiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSIxNCIgZmlsbD0iI2ZmZiIgdGV4dC1hbmNob3I9Im1pZGRsZSI+R0FNRTwvdGV4dD48L3N2Zz4=" alt="Game 3">
-                <div class="game-card-content">
-                    <div class="game-title">Puzzle Master</div>
-                    <div class="game-size">64 MB</div>
-                    <button class="download-btn-small">Download</button>
-                </div>
-            </div>
-            
-            <div class="game-card-grid">
-                <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMjAiIGhlaWdodD0iMTIwIiB2aWV3Qm94PSIwIDAgMTIwIDEyMCI+PHJlY3Qgd2lkdGg9IjEyMCIgaGVpZ2h0PSIxMjAi IGZpbGw9IiM3NzciLz48dGV4dCB4PSI2MCIgeT0iNjAiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSIxNCIgZmlsbD0iI2ZmZiIgdGV4dC1hbmNob3I9Im1pZGRsZSI+R0FNRTwvdGV4dD48L3N2Zz4=" alt="Game 4">
-                <div class="game-card-content">
-                    <div class="game-title">Zombie Shooter</div>
-                    <div class="game-size">152 MB</div>
-                    <button class="download-btn-small">Download</button>
-                </div>
-            </div>
-        </div>
-    </div>
-    
-    <!-- Detail Game Page -->
-    <div id="detail-page" class="page">
-        <div class="top-nav">
-            <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAiIGhlaWdodD0iNDAiIHZpZXdCb3g9IjAgMCAxMDAgNDAiPjxwYXRoIGZpbGw9IiM0YTAwZTAiIGQ9Ik0yMCAxMGg2MHYyMGgtNjB6Ii8+PHRleHQgeD0iNTAiIHk9IjI1IiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iMTQiIGZpbGw9IiNmZmYiIHRleHQtYW5jaG9yPSJtaWRkbGUiPkdBTEVSWTwvdGV4dD48L3N2Zz4=" alt="Game Gallery" class="logo">
-            <button class="menu-btn">☰</button>
-        </div>
-        
-        <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0MDAiIGhlaWdodD0iMzAwIiB2aWV3Qm94PSIwIDAgNDAwIDMwMCI+PHJlY3Qgd2lkdGg9IjQwMCIgaGVpZ2h0PSIzMDAiIGZpbGw9IiMzMzMiLz48dGV4dCB4PSIyMDAiIHk9IjE1MCIgZm9udC1mYW1pbHk9IkFyaWFsIiBmb250LXNpemU9IjI0IiBmaWxsPSIjZmZmIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj5HQU1FIENPVkVSPC90ZXh0Pjwvc3ZnPg==" alt="Game Cover" class="game-cover">
-        
-        <div class="game-header">
-            <h1>Epic Adventure</h1>
-            <div class="game-genre">Action RPG</div>
-        </div>
-        
-        <div class="game-details">
-            <p>Masuki dunia fantasi yang menakjubkan dalam petualangan epik melawan kekuatan jahat. Kumpulkan senjata legendaris, tingkatkan kemampuan karakter, dan selamatkan kerajaan dari kehancuran.</p>
-            
-            <h3>Informasi Game</h3>
-            <div class="info-item">
-                <span>Ukuran</span>
-                <span>128 MB</span>
-            </div>
-            <div class="info-item">
-                <span>Versi</span>
-                <span>1.2.5</span>
-            </div>
-            <div class="info-item">
-                <span>Rating</span>
-                <span>4.8 ★</span>
-            </div>
-            
-            <h3>Spesifikasi Minimum</h3>
-            <div class="info-item">
-                <span>OS</span>
-                <span>Android 7.0+</span>
-            </div>
-            <div class="info-item">
-                <span>RAM</span>
-                <span>2 GB</span>
-            </div>
-            <div class="info-item">
-                <span>Storage</span>
-                <span>200 MB</span>
-            </div>
-        </div>
-        
-        <h3 class="section-title">Screenshot</h3>
-        <div class="screenshot-scroll">
-            <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyMDAiIGhlaWdodD0iMTUwIiB2aWV3Qm94PSIwIDAgMjAwIDE1MCI+PHJlY3Qgd2lkdGg9IjIwMCIgaGVpZ2h0PSIxNTAiIGZpbGw9IiM0NDQiLz48dGV4dCB4PSIxMDAiIHk9Ijc1IiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iMTQiIGZpbGw9IiNmZmYiIHRleHQtYW5jaG9yPSJtaWRkbGUiPlNDUkVFTlNIT1QgMTwvdGV4dD48L3N2Zz4=" alt="Screenshot 1">
-            <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyMDAiIGhlaWdodD0iMTUwIiB2aWV3Qm94PSIwIDAgMjAwIDE1MCI+PHJlY3Qgd2lkdGg9IjIwMCIgaGVpZ2h0PSIxNTAiIGZpbGw9IiM1NTUiLz48dGV4dCB4PSIxMDAiIHk9Ijc1IiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iMTQiIGZpbGw9IiNmZmYiIHRleHQtYW5jaG9yPSJtaWRkbGUiPlNDUkVFTlNIT1QgMjwvdGV4dD48L3N2Zz4=" alt="Screenshot 2">
-            <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyMDAiIGhlaWdodD0iMTUwIiB2aWV3Qm94PSIwIDAgMjAwIDE1MCI+PHJlY3Qgd2lkdGg9IjIwMCIgaGVpZ2h0PSIxNTAiIGZpbGw9IiM2NjYiLz48dGV4dCB4PSIxMDAiIHk9Ijc1IiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iMTQiIGZpbGw9IiNmZmYiIHRleHQtYW5jaG9yPSJtaWRkbGUiPlNDUkVFTlNIT1QgMzwvdGV4dD48L3N2Zz4=" alt="Screenshot 3">
-        </div>
-        
-        <button class="detail-download-btn">Download Game</button>
-    </div>
-    
-    <!-- Bottom Navigation -->
-    <div class="bottom-nav">
-        <a href="#" class="nav-item active" data-page="home-page">
-            <span class="nav-icon">🏠</span>
-            <span>Home</span>
-        </a>
-        <a href="#" class="nav-item" data-page="library-page">
-            <span class="nav-icon">🎮</span>
-            <span>Game</span>
-        </a>
-        <a href="#" class="nav-item" data-page="library-page">
-            <span class="nav-icon">🔍</span>
-            <span>Cari</span>
-        </a>
-        <a href="#" class="nav-item">
-            <span class="nav-icon">ℹ️</span>
-            <span>Tentang</span>
-        </a>
-    </div>
+            <h1>Dans4you</h1>
+            <h2>Layanan Digital Terbaik</h2>
+        </header>
 
-    <script>
-        // Navigation functionality
-        document.querySelectorAll('.nav-item').forEach(item => {
-            item.addEventListener('click', function(e) {
-                e.preventDefault();
-                
-                // Remove active class from all nav items
-                document.querySelectorAll('.nav-item').forEach(navItem => {
-                    navItem.classList.remove('active');
-                });
-                
-                // Add active class to clicked nav item
-                this.classList.add('active');
-                
-                // Show the corresponding page
-                const pageId = this.getAttribute('data-page');
-                if (pageId) {
-                    document.querySelectorAll('.page').forEach(page => {
-                        page.classList.remove('active');
-                    });
-                    document.getElementById(pageId).classList.add('active');
-                }
-            });
-        });
-        
-        // Simulate game download
-        document.querySelectorAll('.download-btn, .download-btn-small, .detail-download-btn').forEach(btn => {
-            btn.addEventListener('click', function() {
-                alert('Download dimulai! (simulasi)');
-            });
-        });
-        
-        // Filter buttons in library
-        document.querySelectorAll('.filter-btn').forEach(btn => {
-            btn.addEventListener('click', function() {
-                document.querySelectorAll('.filter-btn').forEach(b => {
-                    b.classList.remove('active');
-                });
-                this.classList.add('active');
-            });
-        });
-    </script>
+        <section class="products">
+            <div class="product-card">
+                <h3 class="product-title">RAM 1GB CPU 30%</h3>
+                <div class="product-price">Rp 1.000</div>
+                <ul class="product-features">
+                    <li><i class="fas fa-memory"></i> RAM: 1GB</li>
+                    <li><i class="fas fa-microchip"></i> CPU: 30%</li>
+                    <li><i class="fas fa-server"></i> Panel Pterodactyl</li>
+                </ul>
+            </div>
+
+            <div class="product-card">
+                <h3 class="product-title">RAM 2GB CPU 60%</h3>
+                <div class="product-price">Rp 2.000</div>
+                <ul class="product-features">
+                    <li><i class="fas fa-memory"></i> RAM: 2GB</li>
+                    <li><i class="fas fa-microchip"></i> CPU: 60%</li>
+                    <li><i class="fas fa-server"></i> Panel Pterodactyl</li>
+                </ul>
+            </div>
+
+            <div class="product-card">
+                <h3 class="product-title">RAM 3GB CPU 90%</h3>
+                <div class="product-price">Rp 3.000</div>
+                <ul class="product-features">
+                    <li><i class="fas fa-memory"></i> RAM: 3GB</li>
+                    <li><i class="fas fa-microchip"></i> CPU: 90%</li>
+                    <li><i class="fas fa-server"></i> Panel Pterodactyl</li>
+                </ul>
+            </div>
+
+            <div class="product-card">
+                <h3 class="product-title">RAM 4GB CPU 120%</h3>
+                <div class="product-price">Rp 4.000</div>
+                <ul class="product-features">
+                    <li><i class="fas fa-memory"></i> RAM: 4GB</li>
+                    <li><i class="fas fa-microchip"></i> CPU: 120%</li>
+                    <li><i class="fas fa-server"></i> Panel Pterodactyl</li>
+                </ul>
+            </div>
+
+            <div class="product-card">
+                <h3 class="product-title">RAM 5GB CPU 150%</h3>
+                <div class="product-price">Rp 5.000</div>
+                <ul class="product-features">
+                    <li><i class="fas fa-memory"></i> RAM: 5GB</li>
+                    <li><i class="fas fa-microchip"></i> CPU: 150%</li>
+                    <li><i class="fas fa-server"></i> Panel Pterodactyl</li>
+                </ul>
+            </div>
+
+            <div class="product-card">
+                <h3 class="product-title">RAM 6GB CPU 180%</h3>
+                <div class="product-price">Rp 6.000</div>
+                <ul class="product-features">
+                    <li><i class="fas fa-memory"></i> RAM: 6GB</li>
+                    <li><i class="fas fa-microchip"></i> CPU: 180%</li>
+                    <li><i class="fas fa-server"></i> Panel Pterodactyl</li>
+                </ul>
+            </div>
+
+            <div class="product-card">
+                <h3 class="product-title">RAM 7GB CPU 200%</h3>
+                <div class="product-price">Rp 7.000</div>
+                <ul class="product-features">
+                    <li><i class="fas fa-memory"></i> RAM: 7GB</li>
+                    <li><i class="fas fa-microchip"></i> CPU: 200%</li>
+                    <li><i class="fas fa-server"></i> Panel Pterodactyl</li>
+                </ul>
+            </div>
+
+            <div class="product-card">
+                <h3 class="product-title">RAM 8GB CPU 225%</h3>
+                <div class="product-price">Rp 8.000</div>
+                <ul class="product-features">
+                    <li><i class="fas fa-memory"></i> RAM: 8GB</li>
+                    <li><i class="fas fa-microchip"></i> CPU: 225%</li>
+                    <li><i class="fas fa-server"></i> Panel Pterodactyl</li>
+                </ul>
+            </div>
+
+            <div class="product-card">
+                <h3 class="product-title">RAM 9GB CPU 250%</h3>
+                <div class="product-price">Rp 9.000</div>
+                <ul class="product-features">
+                    <li><i class="fas fa-memory"></i> RAM: 9GB</li>
+                    <li><i class="fas fa-microchip"></i> CPU: 250%</li>
+                    <li><i class="fas fa-server"></i> Panel Pterodactyl</li>
+                </ul>
+            </div>
+
+            <div class="product-card">
+                <div class="promo-badge">PROMO</div>
+                <h3 class="product-title">RAM UNLIMITED CPU UNLIMITED</h3>
+                <div class="product-price">Rp 5.000</div>
+                <ul class="product-features">
+                    <li><i class="fas fa-memory"></i> RAM: Unlimited</li>
+                    <li><i class="fas fa-microchip"></i> CPU: Unlimited</li>
+                    <li><i class="fas fa-server"></i> Panel Pterodactyl</li>
+                    <li><i class="fas fa-gift"></i> Spesial Promo</li>
+                </ul>
+            </div>
+
+            <div class="product-card">
+                <h3 class="product-title">RESELLER PANEL PRIVATE</h3>
+                <div class="product-price">Rp 15.000</div>
+                <ul class="product-features">
+                    <li><i class="fas fa-crown"></i> Akses Reseller</li>
+                    <li><i class="fas fa-server"></i> Panel Private</li>
+                    <li><i class="fas fa-star"></i> Fitur Eksklusif</li>
+                </ul>
+            </div>
+        </section>
+
+        <section class="description">
+            <h3>Keunggulan Layanan Kami</h3>
+            <div class="features-grid">
+                <div class="feature-item">
+                    <i class="fas fa-server"></i>
+                    <div>
+                        <h4>Server Private</h4>
+                        <p>Server khusus untuk performa maksimal</p>
+                    </div>
+                </div>
+                <div class="feature-item">
+                    <i class="fas fa-bolt"></i>
+                    <div>
+                        <h4>Server Fresh</h4>
+                        <p>Server baru dengan performa optimal</p>
+                    </div>
+                </div>
+                <div class="feature-item">
+                    <i class="fas fa-tachometer-alt"></i>
+                    <div>
+                        <h4>Anti Delay</h4>
+                        <p>Respons cepat tanpa hambatan</p>
+                    </div>
+                </div>
+                <div class="feature-item">
+                    <i class="fas fa-shield-alt"></i>
+                    <div>
+                        <h4>Anti Colong Script</h4>
+                        <p>Keamanan terjamin untuk script Anda</p>
+                    </div>
+                </div>
+                <div class="feature-item">
+                    <i class="fas fa-trash-alt"></i>
+                    <div>
+                        <h4>Anti Delete Panel</h4>
+                        <p>Panel terlindungi dari penghapusan</p>
+                    </div>
+                </div>
+                <div class="feature-item">
+                    <i class="fas fa-user-shield"></i>
+                    <div>
+                        <h4>Admin Panel Exclusive</h4>
+                        <p>Hanya admin terpercaya yang mengelola</p>
+                    </div>
+                </div>
+                <div class="feature-item">
+                    <i class="fas fa-network-wired"></i>
+                    <div>
+                        <h4>VPS Milik Sendiri</h4>
+                        <p>Infrastruktur mandiri untuk kestabilan</p>
+                    </div>
+                </div>
+                <div class="feature-item">
+                    <i class="fas fa-microchip"></i>
+                    <div>
+                        <h4>VPS RAM 16 Core 8</h4>
+                        <p>Spesifikasi tinggi untuk performa terbaik</p>
+                    </div>
+                </div>
+                <div class="feature-item">
+                    <i class="fas fa-headset"></i>
+                    <div>
+                        <h4>100% Dikelola</h4>
+                        <p>Layanan terkelola dengan profesional</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <div class="contact-buttons">
+            <a href="https://wa.me/62881011892305" class="btn btn-whatsapp">
+                <i class="fab fa-whatsapp"></i> WhatsApp Admin
+            </a>
+            <a href="https://t.me/Dansforyu" class="btn btn-telegram">
+                <i class="fab fa-telegram"></i> Telegram Admin
+            </a>
+        </div>
+
+        <footer>
+            <p>&copy; 2023 Dans4you - Layanan Digital Terbaik. All rights reserved.</p>
+        </footer>
+    </div>
 </body>
 </html>
