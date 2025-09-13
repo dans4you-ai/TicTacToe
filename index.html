@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tic Tac Toe Enigma</title>
+    <style>
+        body {
+            font-family: 'Courier New', monospace;
+            background-color: #0a0a1a;
+            color: #e0e0ff;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            overflow: hidden;
+            position: relative;
+        }
+
+        body::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 10% 20%, rgba(48, 5, 78, 0.4) 0%, transparent 30%),
+                radial-gradient(circle at 90% 70%, rgba(10, 30, 80, 0.4) 0%, transparent 30%);
+            z-index: -1;
+        }
+
+        .enigma-text {
+            font-size: 1.2rem;
+            letter-spacing: 2px;
+            text-align: center;
+            margin-bottom: 10px;
+            text-shadow: 0 0 5px #7a00ff, 0 0 10px #7a00ff;
+            animation: flicker 3s infinite alternate;
+        }
+
+        @keyframes flicker {
+            0%, 19%, 21%, 23%, 25%, 54%, 56%, 100% {
+                text-shadow: 0 0 5px #7a00ff, 0 0 10px #7a00ff;
+            }
+            20%, 24%, 55% {
+                text-shadow: 0 0 10px #7a00ff, 0 0 20px #7a00ff, 0 0 30px #7a00ff;
+            }
+        }
+
+        h1 {
+            color: #ff00cc;
+            text-shadow: 0 0 10px #ff00cc, 0 0 20px #ff00cc;
+            margin-bottom: 20px;
+            font-size: 2.5rem;
+        }
+
+        .game-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background-color: rgba(10, 15, 35, 0.8);
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 0 20px rgba(120, 0, 255, 0.5);
+            border: 1px solid #4a00ff;
+        }
+
+        .status {
+            margin: 20px 0;
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #00ffcc;
+            text-shadow: 0 0 5px #00ffcc;
+        }
+
+        .board {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            grid-gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .cell {
+            width: 100px;
+            height: 100px;
+            background-color: rgba(20, 10, 40, 0.8);
+            border: 2px solid #6600ff;
+            border-radius: 5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-shadow: 0 0 10px currentColor;
+        }
+
+        .cell:hover {
+            background-color: rgba(70, 0, 120, 0.5);
+            box-shadow: 0 0 15px #9900ff;
+        }
+
+        .cell.x {
+            color: #ff0066;
+        }
+
+        .cell.o {
+            color: #00ccff;
+        }
+
+        .reset-btn {
+            background-color: #330066;
+            color: #e0e0ff;
+            border: 2px solid #9900ff;
+            padding: 10px 20px;
+            font-size: 1rem;
+            font-family: 'Courier New', monospace;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+            text-shadow: 0 0 5px #e0e0ff;
+            letter-spacing: 1px;
+        }
+
+        .reset-btn:hover {
+            background-color: #5500aa;
+            box-shadow: 0 0 15px #9900ff;
+        }
+
+        .win {
+            animation: win-pulse 1.5s infinite;
+        }
+
+        @keyframes win-pulse {
+            0%, 100% { 
+                box-shadow: 0 0 10px #00ffcc, 0 0 20px #00ffcc;
+                transform: scale(1);
+            }
+            50% { 
+                box-shadow: 0 0 20px #00ffcc, 0 0 30px #00ffcc;
+                transform: scale(1.05);
+            }
+        }
+
+        .encrypted {
+            font-family: monospace;
+            margin-top: 20px;
+            color: #8888ff;
+            text-align: center;
+            max-width: 300px;
+        }
+    </style>
+</head>
+<body>
+    <div class="enigma-text">ENIGMA ENCRYPTION ACTIVE</div>
+    <h1>TIC TAC TOE ENIGMA</h1>
+    
+    <div class="game-container">
+        <div class="status" id="status">Pemain X: Mulai...</div>
+        
+        <div class="board" id="board">
+            <div class="cell" data-cell-index="0"></div>
+            <div class="cell" data-cell-index="1"></div>
+            <div class="cell" data-cell-index="2"></div>
+            <div class="cell" data-cell-index="3"></div>
+            <div class="cell" data-cell-index="4"></div>
+            <div class="cell" data-cell-index="5"></div>
+            <div class="cell" data-cell-index="6"></div>
+            <div class="cell" data-cell-index="7"></div>
+            <div class="cell" data-cell-index="8"></div>
+        </div>
+        
+        <button class="reset-btn" id="resetBtn">Reset Permainan</button>
+    </div>
+    
+    <div class="encrypted">
+        Kode Enigma: XO-En1gm4-2023<br>
+        Dekripsi pola kemenangan...
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const statusDisplay = document.getElementById('status');
+            const cells = document.querySelectorAll('.cell');
+            const resetButton = document.getElementById('resetBtn');
+            
+            let gameActive = true;
+            let currentPlayer = "X";
+            let gameState = ["", "", "", "", "", "", "", "", ""];
+            
+            const winningMessage = () => `Pemain ${currentPlayer} menang!`;
+            const drawMessage = () => `Permainan seri!`;
+            const currentPlayerTurn = () => `Pemain ${currentPlayer}: Giliranmu`;
+            
+            statusDisplay.innerHTML = currentPlayerTurn();
+            
+            const winningConditions = [
+                [0, 1, 2], [3, 4, 5], [6, 7, 8], // baris
+                [0, 3, 6], [1, 4, 7], [2, 5, 8], // kolom
+                [0, 4, 8], [2, 4, 6]             // diagonal
+            ];
+            
+            function handleCellPlayed(clickedCell, clickedCellIndex) {
+                gameState[clickedCellIndex] = currentPlayer;
+                clickedCell.innerHTML = currentPlayer;
+                clickedCell.classList.add(currentPlayer.toLowerCase());
+            }
+            
+            function handlePlayerChange() {
+                currentPlayer = currentPlayer === "X" ? "O" : "X";
+                statusDisplay.innerHTML = currentPlayerTurn();
+            }
+            
+            function handleResultValidation() {
+                let roundWon = false;
+                let winningLine = [];
+                
+                for (let i = 0; i < winningConditions.length; i++) {
+                    const winCondition = winningConditions[i];
+                    let a = gameState[winCondition[0]];
+                    let b = gameState[winCondition[1]];
+                    let c = gameState[winCondition[2]];
+                    
+                    if (a === '' || b === '' || c === '') {
+                        continue;
+                    }
+                    
+                    if (a === b && b === c) {
+                        roundWon = true;
+                        winningLine = winCondition;
+                        break;
+                    }
+                }
+                
+                if (roundWon) {
+                    statusDisplay.innerHTML = winningMessage();
+                    gameActive = false;
+                    
+                    // Highlight winning cells
+                    winningLine.forEach(index => {
+                        const cell = document.querySelector(`[data-cell-index="${index}"]`);
+                        cell.classList.add('win');
+                    });
+                    
+                    return;
+                }
+                
+                let roundDraw = !gameState.includes("");
+                if (roundDraw) {
+                    statusDisplay.innerHTML = drawMessage();
+                    gameActive = false;
+                    return;
+                }
+                
+                handlePlayerChange();
+            }
+            
+            function handleCellClick(clickedCellEvent) {
+                const clickedCell = clickedCellEvent.target;
+                const clickedCellIndex = parseInt(clickedCell.getAttribute('data-cell-index'));
+                
+                if (gameState[clickedCellIndex] !== "" || !gameActive) {
+                    return;
+                }
+                
+                handleCellPlayed(clickedCell, clickedCellIndex);
+                handleResultValidation();
+            }
+            
+            function handleRestartGame() {
+                gameActive = true;
+                currentPlayer = "X";
+                gameState = ["", "", "", "", "", "", "", "", ""];
+                statusDisplay.innerHTML = currentPlayerTurn();
+                cells.forEach(cell => {
+                    cell.innerHTML = "";
+                    cell.classList.remove('x', 'o', 'win');
+                });
+            }
+            
+            cells.forEach(cell => cell.addEventListener('click', handleCellClick));
+            resetButton.addEventListener('click', handleRestartGame);
+        });
+    </script>
+</body>
+</html>
