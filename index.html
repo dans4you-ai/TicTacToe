@@ -3,286 +3,532 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tic Tac Toe Enigma</title>
+    <title>Game Offline - Main Game Tanpa Internet</title>
     <style>
-        body {
-            font-family: 'Courier New', monospace;
-            background-color: #0a0a1a;
-            color: #e0e0ff;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            height: 100vh;
+        /* Reset & Base Styles */
+        * {
             margin: 0;
-            overflow: hidden;
-            position: relative;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
-
-        body::before {
-            content: "";
-            position: absolute;
+        
+        body {
+            background-color: #121212;
+            color: #f0f0f0;
+            padding-bottom: 60px; /* Space for bottom navbar */
+        }
+        
+        /* Header & Navigation */
+        .top-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 16px;
+            background-color: #1a1a1a;
+            position: sticky;
             top: 0;
-            left: 0;
+            z-index: 100;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+        }
+        
+        .logo {
+            height: 32px;
+            width: auto;
+        }
+        
+        .menu-btn {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 24px;
+            cursor: pointer;
+        }
+        
+        /* Hero Banner */
+        .hero-banner {
+            position: relative;
+            height: 40vh;
+            overflow: hidden;
+        }
+        
+        .hero-banner img {
             width: 100%;
             height: 100%;
-            background: 
-                radial-gradient(circle at 10% 20%, rgba(48, 5, 78, 0.4) 0%, transparent 30%),
-                radial-gradient(circle at 90% 70%, rgba(10, 30, 80, 0.4) 0%, transparent 30%);
-            z-index: -1;
+            object-fit: cover;
         }
-
-        .enigma-text {
-            font-size: 1.2rem;
-            letter-spacing: 2px;
-            text-align: center;
-            margin-bottom: 10px;
-            text-shadow: 0 0 5px #7a00ff, 0 0 10px #7a00ff;
-            animation: flicker 3s infinite alternate;
+        
+        .hero-content {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 20px;
+            background: linear-gradient(transparent, rgba(0, 0, 0, 0.8));
         }
-
-        @keyframes flicker {
-            0%, 19%, 21%, 23%, 25%, 54%, 56%, 100% {
-                text-shadow: 0 0 5px #7a00ff, 0 0 10px #7a00ff;
-            }
-            20%, 24%, 55% {
-                text-shadow: 0 0 10px #7a00ff, 0 0 20px #7a00ff, 0 0 30px #7a00ff;
-            }
+        
+        .download-btn {
+            display: block;
+            width: 100%;
+            padding: 14px;
+            background-color: #4a00e0;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-weight: bold;
+            font-size: 16px;
+            margin-top: 12px;
+            cursor: pointer;
         }
-
-        h1 {
-            color: #ff00cc;
-            text-shadow: 0 0 10px #ff00cc, 0 0 20px #ff00cc;
-            margin-bottom: 20px;
-            font-size: 2.5rem;
+        
+        /* Game List */
+        .section-title {
+            padding: 16px;
+            font-size: 20px;
+            font-weight: bold;
         }
-
-        .game-container {
+        
+        .game-card {
+            display: flex;
+            padding: 12px 16px;
+            border-bottom: 1px solid #2a2a2a;
+        }
+        
+        .game-card img {
+            width: 80px;
+            height: 80px;
+            object-fit: cover;
+            border-radius: 12px;
+            margin-right: 16px;
+        }
+        
+        .game-info {
+            flex: 1;
+        }
+        
+        .game-title {
+            font-weight: bold;
+            margin-bottom: 4px;
+        }
+        
+        .game-desc {
+            font-size: 14px;
+            color: #aaa;
+        }
+        
+        /* Library Page */
+        .search-bar {
+            padding: 16px;
+            background-color: #1a1a1a;
+        }
+        
+        .search-container {
+            display: flex;
+            align-items: center;
+            background-color: #2a2a2a;
+            border-radius: 24px;
+            padding: 8px 16px;
+        }
+        
+        .search-container input {
+            flex: 1;
+            background: none;
+            border: none;
+            color: white;
+            padding: 8px;
+            outline: none;
+        }
+        
+        .filter-container {
+            padding: 12px 16px;
+            display: flex;
+            overflow-x: auto;
+            gap: 10px;
+            background-color: #1a1a1a;
+        }
+        
+        .filter-btn {
+            padding: 8px 16px;
+            background-color: #2a2a2a;
+            border: none;
+            border-radius: 20px;
+            color: white;
+            font-size: 14px;
+            white-space: nowrap;
+        }
+        
+        .filter-btn.active {
+            background-color: #4a00e0;
+        }
+        
+        .grid-view {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            padding: 16px;
+        }
+        
+        .game-card-grid {
+            background-color: #1e1e1e;
+            border-radius: 12px;
+            overflow: hidden;
+        }
+        
+        .game-card-grid img {
+            width: 100%;
+            height: 120px;
+            object-fit: cover;
+        }
+        
+        .game-card-content {
+            padding: 12px;
+        }
+        
+        .game-size {
+            font-size: 12px;
+            color: #888;
+            margin: 4px 0;
+        }
+        
+        .download-btn-small {
+            display: block;
+            width: 100%;
+            padding: 8px;
+            background-color: #4a00e0;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 12px;
+            margin-top: 8px;
+            cursor: pointer;
+        }
+        
+        /* Detail Game Page */
+        .game-cover {
+            width: 100%;
+            height: 40vh;
+            object-fit: cover;
+        }
+        
+        .game-header {
+            padding: 16px;
+        }
+        
+        .game-genre {
+            display: inline-block;
+            padding: 4px 12px;
+            background-color: #2a2a2a;
+            border-radius: 16px;
+            font-size: 14px;
+            margin-top: 8px;
+        }
+        
+        .game-details {
+            padding: 16px;
+        }
+        
+        .info-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px solid #2a2a2a;
+        }
+        
+        .screenshot-scroll {
+            display: flex;
+            overflow-x: auto;
+            gap: 12px;
+            padding: 16px;
+            scroll-snap-type: x mandatory;
+        }
+        
+        .screenshot-scroll img {
+            width: 80%;
+            height: 150px;
+            object-fit: cover;
+            border-radius: 8px;
+            scroll-snap-align: start;
+        }
+        
+        .detail-download-btn {
+            position: fixed;
+            bottom: 70px;
+            left: 16px;
+            right: 16px;
+            padding: 16px;
+            background-color: #4a00e0;
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-weight: bold;
+            font-size: 18px;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        }
+        
+        /* Bottom Navigation */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            display: flex;
+            justify-content: space-around;
+            background-color: #1a1a1a;
+            padding: 12px;
+            border-top: 1px solid #2a2a2a;
+        }
+        
+        .nav-item {
             display: flex;
             flex-direction: column;
             align-items: center;
-            background-color: rgba(10, 15, 35, 0.8);
-            padding: 25px;
-            border-radius: 15px;
-            box-shadow: 0 0 20px rgba(120, 0, 255, 0.5);
-            border: 1px solid #4a00ff;
+            text-decoration: none;
+            color: #888;
+            font-size: 12px;
         }
-
-        .status {
-            margin: 20px 0;
-            font-size: 1.2rem;
-            font-weight: bold;
-            color: #00ffcc;
-            text-shadow: 0 0 5px #00ffcc;
+        
+        .nav-item.active {
+            color: #4a00e0;
         }
-
-        .board {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            grid-gap: 10px;
-            margin-bottom: 20px;
+        
+        .nav-icon {
+            font-size: 20px;
+            margin-bottom: 4px;
         }
-
-        .cell {
-            width: 100px;
-            height: 100px;
-            background-color: rgba(20, 10, 40, 0.8);
-            border: 2px solid #6600ff;
-            border-radius: 5px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 2.5rem;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            text-shadow: 0 0 10px currentColor;
+        
+        /* Page Management */
+        .page {
+            display: none;
         }
-
-        .cell:hover {
-            background-color: rgba(70, 0, 120, 0.5);
-            box-shadow: 0 0 15px #9900ff;
-        }
-
-        .cell.x {
-            color: #ff0066;
-        }
-
-        .cell.o {
-            color: #00ccff;
-        }
-
-        .reset-btn {
-            background-color: #330066;
-            color: #e0e0ff;
-            border: 2px solid #9900ff;
-            padding: 10px 20px;
-            font-size: 1rem;
-            font-family: 'Courier New', monospace;
-            cursor: pointer;
-            border-radius: 5px;
-            transition: all 0.3s ease;
-            text-shadow: 0 0 5px #e0e0ff;
-            letter-spacing: 1px;
-        }
-
-        .reset-btn:hover {
-            background-color: #5500aa;
-            box-shadow: 0 0 15px #9900ff;
-        }
-
-        .win {
-            animation: win-pulse 1.5s infinite;
-        }
-
-        @keyframes win-pulse {
-            0%, 100% { 
-                box-shadow: 0 0 10px #00ffcc, 0 0 20px #00ffcc;
-                transform: scale(1);
-            }
-            50% { 
-                box-shadow: 0 0 20px #00ffcc, 0 0 30px #00ffcc;
-                transform: scale(1.05);
-            }
-        }
-
-        .encrypted {
-            font-family: monospace;
-            margin-top: 20px;
-            color: #8888ff;
-            text-align: center;
-            max-width: 300px;
+        
+        .page.active {
+            display: block;
         }
     </style>
 </head>
 <body>
-    <div class="enigma-text">ENIGMA ENCRYPTION ACTIVE</div>
-    <h1>TIC TAC TOE ENIGMA</h1>
-    
-    <div class="game-container">
-        <div class="status" id="status">Pemain X: Mulai...</div>
-        
-        <div class="board" id="board">
-            <div class="cell" data-cell-index="0"></div>
-            <div class="cell" data-cell-index="1"></div>
-            <div class="cell" data-cell-index="2"></div>
-            <div class="cell" data-cell-index="3"></div>
-            <div class="cell" data-cell-index="4"></div>
-            <div class="cell" data-cell-index="5"></div>
-            <div class="cell" data-cell-index="6"></div>
-            <div class="cell" data-cell-index="7"></div>
-            <div class="cell" data-cell-index="8"></div>
+    <!-- Home Page -->
+    <div id="home-page" class="page active">
+        <div class="top-nav">
+            <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAiIGhlaWdodD0iNDAiIHZpZXdCb3g9IjAgMCAxMDAgNDAiPjxwYXRoIGZpbGw9IiM0YTAwZTAiIGQ9Ik0yMCAxMGg2MHYyMGgtNjB6Ii8+PHRleHQgeD0iNTAiIHk9IjI1IiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iMTQiIGZpbGw9IiNmZmYiIHRleHQtYW5jaG9yPSJtaWRkbGUiPkdBTEVSWTwvdGV4dD48L3N2Zz4=" alt="Game Gallery" class="logo">
+            <button class="menu-btn">☰</button>
         </div>
         
-        <button class="reset-btn" id="resetBtn">Reset Permainan</button>
+        <div class="hero-banner">
+            <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0MDAiIGhlaWdodD0iMzAwIiB2aWV3Qm94PSIwIDAgNDAwIDMwMCI+PHJlY3Qgd2lkdGg9IjQwMCIgaGVpZ2h0PSIzMDAiIGZpbGw9IiMzMzMiLz48dGV4dCB4PSIyMDAiIHk9IjE1MCIgZm9udC1mYW1pbHk9IkFyaWFsIiBmb250LXNpemU9IjI0IiBmaWxsPSIjZmZmIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj5HQU1FIEJBTk5FUjwvdGV4dD48L3N2Zz4=" alt="Game Banner">
+            <div class="hero-content">
+                <h2>Game Terpopuler Bulan Ini</h2>
+                <button class="download-btn">Download Sekarang</button>
+            </div>
+        </div>
+        
+        <h2 class="section-title">Game Favorit</h2>
+        
+        <div class="game-list">
+            <div class="game-card">
+                <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI4MCIgaGVpZ2h0PSI4MCIgdmlld0JveD0iMCAwIDgwIDgwIj48cmVjdCB3aWR0aD0iODAiIGhlaWdodD0iODAiIGZpbGw9IiM0NDQiLz48dGV4dCB4PSI0MCIgeT0iNDAiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSIxMiIgZmlsbD0iI2ZmZiIgdGV4dC1hbmNob3I9Im1pZGRsZSI+R0FNRTwvdGV4dD48L3N2Zz4=" alt="Game 1">
+                <div class="game-info">
+                    <div class="game-title">Epic Adventure</div>
+                    <div class="game-desc">Petualangan seru di dunia fantasi yang menakjubkan</div>
+                </div>
+            </div>
+            
+            <div class="game-card">
+                <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI4MCIgaGVpZ2h0PSI4MCIgdmlld0JveD0iMCAwIDgwIDgwIj48cmVjdCB3aWR0aD0iODAiIGhlaWdodD0iODAiIGZpbGw9IiM1NTUiLz48dGV4dCB4PSI0MCIgeT0iNDAiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSIxMiIgZmlsbD0iI2ZmZiIgdGV4dC1hbmNob3I9Im1pZGRsZSI+R0FNRTwvdGV4dD48L3N2Zz4=" alt="Game 2">
+                <div class="game-info">
+                    <div class="game-title">Racing Extreme</div>
+                    <div class="game-desc">Balapan mobil tercepat dengan grafis memukau</div>
+                </div>
+            </div>
+            
+            <div class="game-card">
+                <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI4MCIgaGVpZ2h0PSI4MCIgdmlld0JveD0iMCAwIDgwIDgwIj48cmVjdCB3aWR0aD0iODAiIGhlaWdodD0iODAiIGZpbGw9IiM2NjYiLz48dGV4dCB4PSI0MCIgeT0iNDAiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSIxMiIgZmlsbD0iI2ZmZiIgdGV4dC1hbmNob3I9Im1pZGRsZSI+R0FNRTwvdGV4dD48L3N2Zz4=" alt="Game 3">
+                <div class="game-info">
+                    <div class="game-title">Puzzle Master</div>
+                    <div class="game-desc">Kumpulan puzzle menarik untuk mengasah otak</div>
+                </div>
+            </div>
+        </div>
     </div>
     
-    <div class="encrypted">
-        Kode Enigma: XO-En1gm4-2023<br>
-        Dekripsi pola kemenangan...
+    <!-- Library Page -->
+    <div id="library-page" class="page">
+        <div class="top-nav">
+            <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAiIGhlaWdodD0iNDAiIHZpZXdCb3g9IjAgMCAxMDAgNDAiPjxwYXRoIGZpbGw9IiM0YTAwZTAiIGQ9Ik0yMCAxMGg2MHYyMGgtNjB6Ii8+PHRleHQgeD0iNTAiIHk9IjI1IiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iMTQiIGZpbGw9IiNmZmYiIHRleHQtYW5jaG9yPSJtaWRkbGUiPkdBTEVSWTwvdGV4dD48L3N2Zz4=" alt="Game Gallery" class="logo">
+            <button class="menu-btn">☰</button>
+        </div>
+        
+        <div class="search-bar">
+            <div class="search-container">
+                <span>🔍</span>
+                <input type="text" placeholder="Cari game offline...">
+            </div>
+        </div>
+        
+        <div class="filter-container">
+            <button class="filter-btn active">Semua</button>
+            <button class="filter-btn">Action</button>
+            <button class="filter-btn">RPG</button>
+            <button class="filter-btn">Strategy</button>
+            <button class="filter-btn">Casual</button>
+        </div>
+        
+        <div class="grid-view">
+            <div class="game-card-grid">
+                <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMjAiIGhlaWdodD0iMTIwIiB2aWV3Qm94PSIwIDAgMTIwIDEyMCI+PHJlY3Qgd2lkdGg9IjEyMCIgaGVpZ2h0PSIxMjAiIGZpbGw9IiM0NDQiLz48dGV4dCB4PSI2MCIgeT0iNjAiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSIxNCIgZmlsbD0iI2ZmZiIgdGV4dC1hbmNob3I9Im1pZGRsZSI+R0FNRTwvdGV4dD48L3N2Zz4=" alt="Game 1">
+                <div class="game-card-content">
+                    <div class="game-title">Epic Adventure</div>
+                    <div class="game-size">128 MB</div>
+                    <button class="download-btn-small">Download</button>
+                </div>
+            </div>
+            
+            <div class="game-card-grid">
+                <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMjAiIGhlaWdodD0iMTIwIiB2aWV3Qm94PSIwIDAgMTIwIDEyMCI+PHJlY3Qgd2lkdGg9IjEyMCIgaGVpZ2h0PSIxMjAiIGZpbGw9IiM1NTUiLz48dGV4dCB4PSI2MCIgeT0iNjAiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSIxNCIgZmlsbD0iI2ZmZiIgdGV4dC1hbmNob3I9Im1pZGRsZSI+R0FNRTwvdGV4dD48L3N2Zz4=" alt="Game 2">
+                <div class="game-card-content">
+                    <div class="game-title">Racing Extreme</div>
+                    <div class="game-size">98 MB</div>
+                    <button class="download-btn-small">Download</button>
+                </div>
+            </div>
+            
+            <div class="game-card-grid">
+                <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMjAiIGhlaWdodD0iMTIwIiB2aWV3Qm94PSIwIDAgMTIwIDEyMCI+PHJlY3Qgd2lkdGg9IjEyMCIgaGVpZ2h0PSIxMjAiIGZpbGw9IiM2NjYiLz48dGV4dCB4PSI2MCIgeT0iNjAiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSIxNCIgZmlsbD0iI2ZmZiIgdGV4dC1hbmNob3I9Im1pZGRsZSI+R0FNRTwvdGV4dD48L3N2Zz4=" alt="Game 3">
+                <div class="game-card-content">
+                    <div class="game-title">Puzzle Master</div>
+                    <div class="game-size">64 MB</div>
+                    <button class="download-btn-small">Download</button>
+                </div>
+            </div>
+            
+            <div class="game-card-grid">
+                <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMjAiIGhlaWdodD0iMTIwIiB2aWV3Qm94PSIwIDAgMTIwIDEyMCI+PHJlY3Qgd2lkdGg9IjEyMCIgaGVpZ2h0PSIxMjAi IGZpbGw9IiM3NzciLz48dGV4dCB4PSI2MCIgeT0iNjAiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSIxNCIgZmlsbD0iI2ZmZiIgdGV4dC1hbmNob3I9Im1pZGRsZSI+R0FNRTwvdGV4dD48L3N2Zz4=" alt="Game 4">
+                <div class="game-card-content">
+                    <div class="game-title">Zombie Shooter</div>
+                    <div class="game-size">152 MB</div>
+                    <button class="download-btn-small">Download</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Detail Game Page -->
+    <div id="detail-page" class="page">
+        <div class="top-nav">
+            <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAiIGhlaWdodD0iNDAiIHZpZXdCb3g9IjAgMCAxMDAgNDAiPjxwYXRoIGZpbGw9IiM0YTAwZTAiIGQ9Ik0yMCAxMGg2MHYyMGgtNjB6Ii8+PHRleHQgeD0iNTAiIHk9IjI1IiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iMTQiIGZpbGw9IiNmZmYiIHRleHQtYW5jaG9yPSJtaWRkbGUiPkdBTEVSWTwvdGV4dD48L3N2Zz4=" alt="Game Gallery" class="logo">
+            <button class="menu-btn">☰</button>
+        </div>
+        
+        <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0MDAiIGhlaWdodD0iMzAwIiB2aWV3Qm94PSIwIDAgNDAwIDMwMCI+PHJlY3Qgd2lkdGg9IjQwMCIgaGVpZ2h0PSIzMDAiIGZpbGw9IiMzMzMiLz48dGV4dCB4PSIyMDAiIHk9IjE1MCIgZm9udC1mYW1pbHk9IkFyaWFsIiBmb250LXNpemU9IjI0IiBmaWxsPSIjZmZmIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj5HQU1FIENPVkVSPC90ZXh0Pjwvc3ZnPg==" alt="Game Cover" class="game-cover">
+        
+        <div class="game-header">
+            <h1>Epic Adventure</h1>
+            <div class="game-genre">Action RPG</div>
+        </div>
+        
+        <div class="game-details">
+            <p>Masuki dunia fantasi yang menakjubkan dalam petualangan epik melawan kekuatan jahat. Kumpulkan senjata legendaris, tingkatkan kemampuan karakter, dan selamatkan kerajaan dari kehancuran.</p>
+            
+            <h3>Informasi Game</h3>
+            <div class="info-item">
+                <span>Ukuran</span>
+                <span>128 MB</span>
+            </div>
+            <div class="info-item">
+                <span>Versi</span>
+                <span>1.2.5</span>
+            </div>
+            <div class="info-item">
+                <span>Rating</span>
+                <span>4.8 ★</span>
+            </div>
+            
+            <h3>Spesifikasi Minimum</h3>
+            <div class="info-item">
+                <span>OS</span>
+                <span>Android 7.0+</span>
+            </div>
+            <div class="info-item">
+                <span>RAM</span>
+                <span>2 GB</span>
+            </div>
+            <div class="info-item">
+                <span>Storage</span>
+                <span>200 MB</span>
+            </div>
+        </div>
+        
+        <h3 class="section-title">Screenshot</h3>
+        <div class="screenshot-scroll">
+            <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyMDAiIGhlaWdodD0iMTUwIiB2aWV3Qm94PSIwIDAgMjAwIDE1MCI+PHJlY3Qgd2lkdGg9IjIwMCIgaGVpZ2h0PSIxNTAiIGZpbGw9IiM0NDQiLz48dGV4dCB4PSIxMDAiIHk9Ijc1IiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iMTQiIGZpbGw9IiNmZmYiIHRleHQtYW5jaG9yPSJtaWRkbGUiPlNDUkVFTlNIT1QgMTwvdGV4dD48L3N2Zz4=" alt="Screenshot 1">
+            <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyMDAiIGhlaWdodD0iMTUwIiB2aWV3Qm94PSIwIDAgMjAwIDE1MCI+PHJlY3Qgd2lkdGg9IjIwMCIgaGVpZ2h0PSIxNTAiIGZpbGw9IiM1NTUiLz48dGV4dCB4PSIxMDAiIHk9Ijc1IiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iMTQiIGZpbGw9IiNmZmYiIHRleHQtYW5jaG9yPSJtaWRkbGUiPlNDUkVFTlNIT1QgMjwvdGV4dD48L3N2Zz4=" alt="Screenshot 2">
+            <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyMDAiIGhlaWdodD0iMTUwIiB2aWV3Qm94PSIwIDAgMjAwIDE1MCI+PHJlY3Qgd2lkdGg9IjIwMCIgaGVpZ2h0PSIxNTAiIGZpbGw9IiM2NjYiLz48dGV4dCB4PSIxMDAiIHk9Ijc1IiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iMTQiIGZpbGw9IiNmZmYiIHRleHQtYW5jaG9yPSJtaWRkbGUiPlNDUkVFTlNIT1QgMzwvdGV4dD48L3N2Zz4=" alt="Screenshot 3">
+        </div>
+        
+        <button class="detail-download-btn">Download Game</button>
+    </div>
+    
+    <!-- Bottom Navigation -->
+    <div class="bottom-nav">
+        <a href="#" class="nav-item active" data-page="home-page">
+            <span class="nav-icon">🏠</span>
+            <span>Home</span>
+        </a>
+        <a href="#" class="nav-item" data-page="library-page">
+            <span class="nav-icon">🎮</span>
+            <span>Game</span>
+        </a>
+        <a href="#" class="nav-item" data-page="library-page">
+            <span class="nav-icon">🔍</span>
+            <span>Cari</span>
+        </a>
+        <a href="#" class="nav-item">
+            <span class="nav-icon">ℹ️</span>
+            <span>Tentang</span>
+        </a>
     </div>
 
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const statusDisplay = document.getElementById('status');
-            const cells = document.querySelectorAll('.cell');
-            const resetButton = document.getElementById('resetBtn');
-            
-            let gameActive = true;
-            let currentPlayer = "X";
-            let gameState = ["", "", "", "", "", "", "", "", ""];
-            
-            const winningMessage = () => `Pemain ${currentPlayer} menang!`;
-            const drawMessage = () => `Permainan seri!`;
-            const currentPlayerTurn = () => `Pemain ${currentPlayer}: Giliranmu`;
-            
-            statusDisplay.innerHTML = currentPlayerTurn();
-            
-            const winningConditions = [
-                [0, 1, 2], [3, 4, 5], [6, 7, 8], // baris
-                [0, 3, 6], [1, 4, 7], [2, 5, 8], // kolom
-                [0, 4, 8], [2, 4, 6]             // diagonal
-            ];
-            
-            function handleCellPlayed(clickedCell, clickedCellIndex) {
-                gameState[clickedCellIndex] = currentPlayer;
-                clickedCell.innerHTML = currentPlayer;
-                clickedCell.classList.add(currentPlayer.toLowerCase());
-            }
-            
-            function handlePlayerChange() {
-                currentPlayer = currentPlayer === "X" ? "O" : "X";
-                statusDisplay.innerHTML = currentPlayerTurn();
-            }
-            
-            function handleResultValidation() {
-                let roundWon = false;
-                let winningLine = [];
+        // Navigation functionality
+        document.querySelectorAll('.nav-item').forEach(item => {
+            item.addEventListener('click', function(e) {
+                e.preventDefault();
                 
-                for (let i = 0; i < winningConditions.length; i++) {
-                    const winCondition = winningConditions[i];
-                    let a = gameState[winCondition[0]];
-                    let b = gameState[winCondition[1]];
-                    let c = gameState[winCondition[2]];
-                    
-                    if (a === '' || b === '' || c === '') {
-                        continue;
-                    }
-                    
-                    if (a === b && b === c) {
-                        roundWon = true;
-                        winningLine = winCondition;
-                        break;
-                    }
-                }
-                
-                if (roundWon) {
-                    statusDisplay.innerHTML = winningMessage();
-                    gameActive = false;
-                    
-                    // Highlight winning cells
-                    winningLine.forEach(index => {
-                        const cell = document.querySelector(`[data-cell-index="${index}"]`);
-                        cell.classList.add('win');
-                    });
-                    
-                    return;
-                }
-                
-                let roundDraw = !gameState.includes("");
-                if (roundDraw) {
-                    statusDisplay.innerHTML = drawMessage();
-                    gameActive = false;
-                    return;
-                }
-                
-                handlePlayerChange();
-            }
-            
-            function handleCellClick(clickedCellEvent) {
-                const clickedCell = clickedCellEvent.target;
-                const clickedCellIndex = parseInt(clickedCell.getAttribute('data-cell-index'));
-                
-                if (gameState[clickedCellIndex] !== "" || !gameActive) {
-                    return;
-                }
-                
-                handleCellPlayed(clickedCell, clickedCellIndex);
-                handleResultValidation();
-            }
-            
-            function handleRestartGame() {
-                gameActive = true;
-                currentPlayer = "X";
-                gameState = ["", "", "", "", "", "", "", "", ""];
-                statusDisplay.innerHTML = currentPlayerTurn();
-                cells.forEach(cell => {
-                    cell.innerHTML = "";
-                    cell.classList.remove('x', 'o', 'win');
+                // Remove active class from all nav items
+                document.querySelectorAll('.nav-item').forEach(navItem => {
+                    navItem.classList.remove('active');
                 });
-            }
-            
-            cells.forEach(cell => cell.addEventListener('click', handleCellClick));
-            resetButton.addEventListener('click', handleRestartGame);
+                
+                // Add active class to clicked nav item
+                this.classList.add('active');
+                
+                // Show the corresponding page
+                const pageId = this.getAttribute('data-page');
+                if (pageId) {
+                    document.querySelectorAll('.page').forEach(page => {
+                        page.classList.remove('active');
+                    });
+                    document.getElementById(pageId).classList.add('active');
+                }
+            });
+        });
+        
+        // Simulate game download
+        document.querySelectorAll('.download-btn, .download-btn-small, .detail-download-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                alert('Download dimulai! (simulasi)');
+            });
+        });
+        
+        // Filter buttons in library
+        document.querySelectorAll('.filter-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                document.querySelectorAll('.filter-btn').forEach(b => {
+                    b.classList.remove('active');
+                });
+                this.classList.add('active');
+            });
         });
     </script>
 </body>
