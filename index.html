@@ -1,709 +1,120 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="id">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dans4you - Layanan Digital Terbaik</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Roboto+Mono:wght@300;400;500&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            --primary-color: #6a11cb;
-            --secondary-color: #2575fc;
-            --accent-color: #ff4e50;
-            --dark-color: #121212;
-            --light-color: #f8f9fa;
-            --text-color: #e0e0e0;
-            --card-bg: rgba(25, 25, 35, 0.8);
-            --gradient: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
-            --neon-shadow: 0 0 10px rgba(106, 17, 203, 0.7), 0 0 20px rgba(37, 117, 252, 0.5);
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Poppins', sans-serif;
-        }
-
-        body {
-            background: url('https://img1.pixhost.to/images/8669/640103887_zakkistore.jpg') fixed;
-            background-size: cover;
-            color: var(--text-color);
-            min-height: 100vh;
-            line-height: 1.6;
-            position: relative;
-            overflow-x: hidden;
-        }
-
-        body::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(to bottom, rgba(15, 12, 41, 0.9), rgba(36, 36, 62, 0.9));
-            z-index: -1;
-        }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
-        }
-
-        header {
-            text-align: center;
-            padding: 60px 0 30px;
-            position: relative;
-        }
-
-        .logo-container {
-            display: flex;
-            justify-content: center;
-            margin-bottom: 25px;
-        }
-
-        .logo {
-            width: 140px;
-            height: 140px;
-            border-radius: 50%;
-            border: 3px solid rgba(255, 255, 255, 0.2);
-            box-shadow: var(--neon-shadow);
-            overflow: hidden;
-            transition: all 0.4s ease;
-            position: relative;
-        }
-
-        .logo:hover {
-            transform: scale(1.08) rotate(5deg);
-            box-shadow: 0 0 25px rgba(106, 17, 203, 0.9);
-        }
-
-        .logo img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        .logo::after {
-            content: '';
-            position: absolute;
-            top: -10px;
-            left: -10px;
-            right: -10px;
-            bottom: -10px;
-            border-radius: 50%;
-            background: var(--gradient);
-            z-index: -1;
-            filter: blur(20px);
-            opacity: 0.6;
-        }
-
-        h1 {
-            font-size: 4rem;
-            margin-bottom: 10px;
-            background: var(--gradient);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-            text-shadow: 0 2px 15px rgba(0, 0, 0, 0.3);
-            letter-spacing: 2px;
-            font-weight: 700;
-            position: relative;
-            display: inline-block;
-        }
-
-        h1::after {
-            content: '';
-            position: absolute;
-            bottom: -10px;
-            left: 0;
-            width: 100%;
-            height: 3px;
-            background: var(--gradient);
-            border-radius: 3px;
-            transform: scaleX(0);
-            transform-origin: right;
-            transition: transform 0.5s ease;
-        }
-
-        h1:hover::after {
-            transform: scaleX(1);
-            transform-origin: left;
-        }
-
-        h2 {
-            font-size: 1.8rem;
-            font-weight: 300;
-            margin-bottom: 40px;
-            color: #d0d0d0;
-            font-family: 'Roboto Mono', monospace;
-            letter-spacing: 1px;
-        }
-
-        .products {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-            gap: 30px;
-            margin: 50px 0;
-        }
-
-        .product-card {
-            background: var(--card-bg);
-            backdrop-filter: blur(12px);
-            border-radius: 20px;
-            padding: 30px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
-            transition: all 0.3s ease;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            position: relative;
-            overflow: hidden;
-            transform-style: preserve-3d;
-        }
-
-        .product-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 5px;
-            background: var(--gradient);
-        }
-
-        .product-card::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: var(--gradient);
-            opacity: 0;
-            z-index: -1;
-            transition: opacity 0.3s ease;
-        }
-
-        .product-card:hover {
-            transform: translateY(-10px) scale(1.02);
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
-            border-color: rgba(255, 255, 255, 0.2);
-        }
-
-        .product-card:hover::after {
-            opacity: 0.1;
-        }
-
-        .product-title {
-            font-size: 1.5rem;
-            margin-bottom: 20px;
-            color: #fff;
-            text-align: center;
-            font-weight: 600;
-            text-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
-        }
-
-        .product-price {
-            font-size: 2.2rem;
-            font-weight: 700;
-            color: var(--accent-color);
-            text-align: center;
-            margin: 20px 0;
-            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
-            font-family: 'Roboto Mono', monospace;
-        }
-
-        .product-features {
-            list-style-type: none;
-            margin: 25px 0;
-        }
-
-        .product-features li {
-            padding: 12px 0;
-            border-bottom: 1px dashed rgba(255, 255, 255, 0.1);
-            display: flex;
-            align-items: center;
-            transition: all 0.2s ease;
-        }
-
-        .product-features li:hover {
-            transform: translateX(5px);
-            border-color: rgba(255, 255, 255, 0.3);
-        }
-
-        .product-features li:last-child {
-            border-bottom: none;
-        }
-
-        .product-features i {
-            margin-right: 15px;
-            color: var(--secondary-color);
-            font-size: 1.2rem;
-            width: 25px;
-            text-align: center;
-        }
-
-        .promo-badge {
-            position: absolute;
-            top: 20px;
-            right: -35px;
-            background: var(--accent-color);
-            color: white;
-            padding: 8px 40px;
-            transform: rotate(45deg);
-            font-size: 0.9rem;
-            font-weight: bold;
-            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.3);
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        .description {
-            background: var(--card-bg);
-            backdrop-filter: blur(12px);
-            border-radius: 20px;
-            padding: 40px;
-            margin: 60px 0;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .description::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 5px;
-            background: var(--gradient);
-        }
-
-        .description h3 {
-            font-size: 2.2rem;
-            margin-bottom: 30px;
-            text-align: center;
-            color: #fff;
-            font-weight: 700;
-            text-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
-        }
-
-        .features-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 25px;
-            margin-top: 30px;
-        }
-
-        .feature-item {
-            display: flex;
-            align-items: center;
-            background: rgba(0, 0, 0, 0.3);
-            padding: 20px;
-            border-radius: 15px;
-            transition: all 0.3s ease;
-        }
-
-        .feature-item:hover {
-            transform: translateY(-5px);
-            background: rgba(0, 0, 0, 0.4);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-        }
-
-        .feature-item i {
-            font-size: 2rem;
-            margin-right: 20px;
-            color: var(--secondary-color);
-            min-width: 40px;
-            text-align: center;
-        }
-
-        .feature-item h4 {
-            font-size: 1.2rem;
-            margin-bottom: 5px;
-            color: #fff;
-        }
-
-        .feature-item p {
-            font-size: 0.9rem;
-            color: #b0b0b0;
-        }
-
-        .contact-buttons {
-            display: flex;
-            justify-content: center;
-            gap: 25px;
-            margin: 50px 0;
-            flex-wrap: wrap;
-        }
-
-        .btn {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            padding: 18px 35px;
-            border-radius: 50px;
-            text-decoration: none;
-            font-weight: 600;
-            transition: all 0.3s ease;
-            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
-            border: none;
-            cursor: pointer;
-            font-size: 1.2rem;
-            position: relative;
-            overflow: hidden;
-            z-index: 1;
-        }
-
-        .btn::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(45deg, transparent 0%, rgba(255, 255, 255, 0.1) 100%);
-            z-index: -1;
-            transform: translateX(-100%);
-            transition: transform 0.4s ease;
-        }
-
-        .btn:hover::before {
-            transform: translateX(0);
-        }
-
-        .btn-whatsapp {
-            background: #25D366;
-            color: white;
-        }
-
-        .btn-telegram {
-            background: #0088cc;
-            color: white;
-        }
-
-        .btn:hover {
-            transform: translateY(-5px) scale(1.05);
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
-        }
-
-        .btn i {
-            margin-right: 12px;
-            font-size: 1.5rem;
-        }
-
-        footer {
-            text-align: center;
-            padding: 40px 0;
-            margin-top: 60px;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-            font-size: 1rem;
-            color: #aaa;
-            font-family: 'Roboto Mono', monospace;
-        }
-
-        .particles {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -1;
-            overflow: hidden;
-        }
-
-        .particle {
-            position: absolute;
-            background: rgba(106, 17, 203, 0.5);
-            border-radius: 50%;
-            animation: float 15s infinite linear;
-        }
-
-        @keyframes float {
-            0% {
-                transform: translateY(0) rotate(0deg);
-                opacity: 1;
-            }
-            100% {
-                transform: translateY(-1000px) rotate(720deg);
-                opacity: 0;
-            }
-        }
-
-        @media (max-width: 768px) {
-            h1 {
-                font-size: 2.8rem;
-            }
-            
-            h2 {
-                font-size: 1.4rem;
-            }
-            
-            .products {
-                grid-template-columns: 1fr;
-            }
-            
-            .contact-buttons {
-                flex-direction: column;
-                align-items: center;
-            }
-            
-            .btn {
-                width: 100%;
-                max-width: 320px;
-            }
-            
-            .logo {
-                width: 120px;
-                height: 120px;
-            }
-        }
-    </style>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Payment Dans4you</title>
+  <style>
+    :root{
+      --blue-900:#0a2540;
+      --blue-700:#144a8a;
+      --blue-600:#1b5fb8;
+      --blue-500:#2b7be4;
+      --blue-100:#e7f0ff;
+      --ink:#0b1324;
+      --muted:#5b6b8a;
+      --card:#ffffff;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family:sans-serif;
+      background: linear-gradient(135deg,var(--blue-100),#f7fbff);
+      color:var(--ink);
+    }
+    .wrap{max-width:900px;margin:auto;padding:24px;}
+    header{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;}
+    h1{margin:0;font-size:24px;color:var(--blue-900);}
+    .subtitle{color:var(--muted);font-size:14px}
+    .grid{display:grid;gap:16px;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));}
+    .card{background:#fff;border:1px solid #cfe1ff;padding:16px;border-radius:16px;box-shadow:0 4px 10px rgba(0,0,0,.1);}
+    .badge{font-weight:bold;color:var(--blue-900);}
+    .tag{font-size:12px;background:var(--blue-100);padding:4px 8px;border-radius:12px;color:var(--blue-700);}
+    .qr{width:100%;aspect-ratio:1/1;border-radius:12px;background:#f3f6ff;margin:10px 0;}
+    .row{display:flex;gap:8px;align-items:center;}
+    .num{flex:1;padding:8px;border:1px solid #cfe1ff;border-radius:8px;background:#f6f9ff;font-weight:bold;}
+    button{background:linear-gradient(180deg,var(--blue-500),var(--blue-600));color:#fff;border:none;border-radius:8px;padding:8px 12px;font-weight:bold;cursor:pointer;}
+    footer{margin-top:20px;font-size:13px;color:var(--muted);text-align:center;}
+    .toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:#0f1729;color:#fff;padding:8px 12px;border-radius:20px;opacity:0;transition:.3s;}
+    .toast.show{opacity:1;}
+  </style>
 </head>
 <body>
-    <div class="particles" id="particles"></div>
-    
-    <div class="container">
-        <header>
-            <div class="logo-container">
-                <div class="logo">
-                    <img src="https://img1.pixhost.to/images/8189/634369362_ochobot.jpg" alt="Dans4you Logo">
-                </div>
-            </div>
-            <h1>Dans4you</h1>
-            <h2>Layanan Digital Terbaik</h2>
-        </header>
+  <div class="wrap">
+    <header>
+      <div>
+        <h1>Payment Dans4you</h1>
+        <div class="subtitle">Metode pembayaran: DANA • GoPay • OVO</div>
+      </div>
+      <button id="btnShare">Bagikan Link</button>
+    </header>
 
-        <section class="products">
-            <div class="product-card">
-                <h3 class="product-title">RAM 1GB CPU 30%</h3>
-                <div class="product-price">Rp 1.000</div>
-                <ul class="product-features">
-                    <li><i class="fas fa-memory"></i> RAM: 1GB</li>
-                    <li><i class="fas fa-microchip"></i> CPU: 30%</li>
-                    <li><i class="fas fa-server"></i> Panel Pterodactyl</li>
-                </ul>
-            </div>
+    <main class="grid">
 
-            <div class="product-card">
-                <h3 class="product-title">RAM 2GB CPU 60%</h3>
-                <div class="product-price">Rp 2.000</div>
-                <ul class="product-features">
-                    <li><i class="fas fa-memory"></i> RAM: 2GB</li>
-                    <li><i class="fas fa-microchip"></i> CPU: 60%</li>
-                    <li><i class="fas fa-server"></i> Panel Pterodactyl</li>
-                </ul>
-            </div>
-
-            <div class="product-card">
-                <h3 class="product-title">RAM 3GB CPU 90%</h3>
-                <div class="product-price">Rp 3.000</div>
-                <ul class="product-features">
-                    <li><i class="fas fa-memory"></i> RAM: 3GB</li>
-                    <li><i class="fas fa-microchip"></i> CPU: 90%</li>
-                    <li><i class="fas fa-server"></i> Panel Pterodactyl</li>
-                </ul>
-            </div>
-
-            <div class="product-card">
-                <h3 class="product-title">RAM 4GB CPU 120%</h3>
-                <div class="product-price">Rp 4.000</div>
-                <ul class="product-features">
-                    <li><i class="fas fa-memory"></i> RAM: 4GB</li>
-                    <li><i class="fas fa-microchip"></i> CPU: 120%</li>
-                    <li><i class="fas fa-server"></i> Panel Pterodactyl</li>
-                </ul>
-            </div>
-
-            <div class="product-card">
-                <h3 class="product-title">RAM 5GB CPU 150%</h3>
-                <div class="product-price">Rp 5.000</div>
-                <ul class="product-features">
-                    <li><i class="fas fa-memory"></i> RAM: 5GB</li>
-                    <li><i class="fas fa-microchip"></i> CPU: 150%</li>
-                    <li><i class="fas fa-server"></i> Panel Pterodactyl</li>
-                </ul>
-            </div>
-
-            <div class="product-card">
-                <h3 class="product-title">RAM 6GB CPU 180%</h3>
-                <div class="product-price">Rp 6.000</div>
-                <ul class="product-features">
-                    <li><i class="fas fa-memory"></i> RAM: 6GB</li>
-                    <li><i class="fas fa-microchip"></i> CPU: 180%</li>
-                    <li><i class="fas fa-server"></i> Panel Pterodactyl</li>
-                </ul>
-            </div>
-
-            <div class="product-card">
-                <h3 class="product-title">RAM 7GB CPU 200%</h3>
-                <div class="product-price">Rp 7.000</div>
-                <ul class="product-features">
-                    <li><i class="fas fa-memory"></i> RAM: 7GB</li>
-                    <li><i class="fas fa-microchip"></i> CPU: 200%</li>
-                    <li><i class="fas fa-server"></i> Panel Pterodactyl</li>
-                </ul>
-            </div>
-
-            <div class="product-card">
-                <h3 class="product-title">RAM 8GB CPU 225%</h3>
-                <div class="product-price">Rp 8.000</div>
-                <ul class="product-features">
-                    <li><i class="fas fa-memory"></i> RAM: 8GB</li>
-                    <li><i class="fas fa-microchip"></i> CPU: 225%</li>
-                    <li><i class="fas fa-server"></i> Panel Pterodactyl</li>
-                </ul>
-            </div>
-
-            <div class="product-card">
-                <h3 class="product-title">RAM 9GB CPU 250%</h3>
-                <div class="product-price">Rp 9.000</div>
-                <ul class="product-features">
-                    <li><i class="fas fa-memory"></i> RAM: 9GB</li>
-                    <li><i class="fas fa-microchip"></i> CPU: 250%</li>
-                    <li><i class="fas fa-server"></i> Panel Pterodactyl</li>
-                </ul>
-            </div>
-
-            <div class="product-card">
-                <div class="promo-badge">PROMO</div>
-                <h3 class="product-title">RAM UNLIMITED CPU UNLIMITED</h3>
-                <div class="product-price">Rp 5.000</div>
-                <ul class="product-features">
-                    <li><i class="fas fa-memory"></i> RAM: Unlimited</li>
-                    <li><i class="fas fa-microchip"></i> CPU: Unlimited</li>
-                    <li><i class="fas fa-server"></i> Panel Pterodactyl</li>
-                    <li><i class="fas fa-gift"></i> Spesial Promo</li>
-                </ul>
-            </div>
-
-            <div class="product-card">
-                <h3 class="product-title">RESELLER PANEL PRIVATE</h3>
-                <div class="product-price">Rp 15.000</div>
-                <ul class="product-features">
-                    <li><i class="fas fa-crown"></i> Akses Reseller</li>
-                    <li><i class="fas fa-server"></i> Panel Private</li>
-                    <li><i class="fas fa-star"></i> Fitur Eksklusif</li>
-                </ul>
-            </div>
-        </section>
-
-        <section class="description">
-            <h3>Keunggulan Layanan Kami</h3>
-            <div class="features-grid">
-                <div class="feature-item">
-                    <i class="fas fa-server"></i>
-                    <div>
-                        <h4>Server Private</h4>
-                        <p>Server khusus untuk performa maksimal</p>
-                    </div>
-                </div>
-                <div class="feature-item">
-                    <i class="fas fa-bolt"></i>
-                    <div>
-                        <h4>Server Fresh</h4>
-                        <p>Server baru dengan performa optimal</p>
-                    </div>
-                </div>
-                <div class="feature-item">
-                    <i class="fas fa-tachometer-alt"></i>
-                    <div>
-                        <h4>Anti Delay</h4>
-                        <p>Respons cepat tanpa hambatan</p>
-                    </div>
-                </div>
-                <div class="feature-item">
-                    <i class="fas fa-shield-alt"></i>
-                    <div>
-                        <h4>Anti Colong Script</h4>
-                        <p>Keamanan terjamin untuk script Anda</p>
-                    </div>
-                </div>
-                <div class="feature-item">
-                    <i class="fas fa-trash-alt"></i>
-                    <div>
-                        <h4>Anti Delete Panel</h4>
-                        <p>Panel terlindungi dari penghapusan</p>
-                    </div>
-                </div>
-                <div class="feature-item">
-                    <i class="fas fa-user-shield"></i>
-                    <div>
-                        <h4>Admin Panel Exclusive</h4>
-                        <p>Hanya admin terpercaya yang mengelola</p>
-                    </div>
-                </div>
-                <div class="feature-item">
-                    <i class="fas fa-network-wired"></i>
-                    <div>
-                        <h4>VPS Milik Sendiri</h4>
-                        <p>Infrastruktur mandiri untuk kestabilan</p>
-                    </div>
-                </div>
-                <div class="feature-item">
-                    <i class="fas fa-microchip"></i>
-                    <div>
-                        <h4>VPS RAM 16 Core 8</h4>
-                        <p>Spesifikasi tinggi untuk performa terbaik</p>
-                    </div>
-                </div>
-                <div class="feature-item">
-                    <i class="fas fa-headset"></i>
-                    <div>
-                        <h4>100% Dikelola</h4>
-                        <p>Layanan terkelola dengan profesional</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <div class="contact-buttons">
-            <a href="https://wa.me/62881011892305" class="btn btn-whatsapp">
-                <i class="fab fa-whatsapp"></i> WhatsApp Admin
-            </a>
-            <a href="https://t.me/Dansforyu" class="btn btn-telegram">
-                <i class="fab fa-telegram"></i> Telegram Admin
-            </a>
+      <!-- DANA -->
+      <section class="card">
+        <div class="badge">DANA <span class="tag">E-Wallet</span></div>
+        <img class="qr" src="dana-qr.png" alt="QR DANA">
+        <div class="row">
+          <div class="num" id="num-dana" data-number="NO DANA">NO DANA</div>
+          <button onclick="copyNumber('num-dana')">Copy</button>
         </div>
+      </section>
 
-        <footer>
-            <p>&copy; 2023 Dans4you - Layanan Digital Terbaik. All rights reserved.</p>
-        </footer>
-    </div>
+      <!-- GoPay -->
+      <section class="card">
+        <div class="badge">GoPay <span class="tag">E-Wallet</span></div>
+        <img class="qr" src="gopay-qr.png" alt="QR GoPay">
+        <div class="row">
+          <div class="num" id="num-gopay" data-number="NO GOPAY">NO GOPAY</div>
+          <button onclick="copyNumber('num-gopay')">Copy</button>
+        </div>
+      </section>
 
-    <script>
-        // Create floating particles for background effect
-        document.addEventListener('DOMContentLoaded', function() {
-            const particlesContainer = document.getElementById('particles');
-            const numberOfParticles = 30;
-            
-            for (let i = 0; i < numberOfParticles; i++) {
-                const particle = document.createElement('div');
-                particle.classList.add('particle');
-                
-                // Random size between 5 and 15px
-                const size = Math.random() * 10 + 5;
-                particle.style.width = `${size}px`;
-                particle.style.height = `${size}px`;
-                
-                // Random position
-                particle.style.left = `${Math.random() * 100}vw`;
-                particle.style.top = `${Math.random() * 100}vh`;
-                
-                // Random animation duration between 10 and 20s
-                particle.style.animationDuration = `${Math.random() * 10 + 10}s`;
-                
-                // Random delay
-                particle.style.animationDelay = `${Math.random() * 5}s`;
-                
-                particlesContainer.appendChild(particle);
-            }
-        });
-    </script>
+      <!-- OVO -->
+      <section class="card">
+        <div class="badge">OVO <span class="tag">E-Wallet</span></div>
+        <img class="qr" src="ovo-qr.png" alt="QR OVO">
+        <div class="row">
+          <div class="num" id="num-ovo" data-number="NOMER OVO">NOMER OVO</div>
+          <button onclick="copyNumber('num-ovo')">Copy</button>
+        </div>
+      </section>
+
+    </main>
+
+    <footer>
+      © <span id="year"></span> Payment Dans4you • Pastikan nama penerima sesuai sebelum transfer.
+    </footer>
+  </div>
+
+  <div class="toast" id="toast"></div>
+
+  <script>
+    document.getElementById("year").textContent = new Date().getFullYear();
+
+    function copyNumber(id){
+      const el = document.getElementById(id);
+      const text = el.dataset.number;
+      navigator.clipboard.writeText(text).then(()=>{
+        showToast("Nomor disalin: " + text);
+      });
+    }
+
+    const toast = document.getElementById("toast");
+    let timer;
+    function showToast(msg){
+      toast.textContent = msg;
+      toast.classList.add("show");
+      clearTimeout(timer);
+      timer = setTimeout(()=>toast.classList.remove("show"),1500);
+    }
+
+    document.getElementById("btnShare").addEventListener("click", async ()=>{
+      const data = {title: document.title, text:"Link Payment Dans4you", url:location.href};
+      if(navigator.share){ await navigator.share(data); }
+      else{ await navigator.clipboard.writeText(location.href); showToast("Link disalin"); }
+    });
+  </script>
 </body>
 </html>
