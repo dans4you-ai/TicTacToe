@@ -21,6 +21,7 @@
       font-family:sans-serif;
       background: linear-gradient(135deg,var(--blue-100),#f7fbff);
       color:var(--ink);
+      min-height:100vh;
     }
     .wrap{max-width:900px;margin:auto;padding:24px;}
     header{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;}
@@ -28,15 +29,19 @@
     .subtitle{color:var(--muted);font-size:14px}
     .grid{display:grid;gap:16px;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));}
     .card{background:#fff;border:1px solid #cfe1ff;padding:16px;border-radius:16px;box-shadow:0 4px 10px rgba(0,0,0,.1);}
-    .badge{font-weight:bold;color:var(--blue-900);}
+    .badge{font-weight:bold;color:var(--blue-900);display:flex;align-items:center;gap:8px;margin-bottom:10px;}
+    .logo{width:32px;height:32px;object-fit:contain;}
     .tag{font-size:12px;background:var(--blue-100);padding:4px 8px;border-radius:12px;color:var(--blue-700);}
-    .qr{width:100%;aspect-ratio:1/1;border-radius:12px;background:#f3f6ff;margin:10px 0;}
+    .qr{width:100%;aspect-ratio:1/1;border-radius:12px;background:#f3f6ff;margin:10px 0;display:flex;align-items:center;justify-content:center;}
+    .qr-placeholder{color:var(--muted);font-size:14px;text-align:center;}
     .row{display:flex;gap:8px;align-items:center;}
-    .num{flex:1;padding:8px;border:1px solid #cfe1ff;border-radius:8px;background:#f6f9ff;font-weight:bold;}
-    button{background:linear-gradient(180deg,var(--blue-500),var(--blue-600));color:#fff;border:none;border-radius:8px;padding:8px 12px;font-weight:bold;cursor:pointer;}
+    .num{flex:1;padding:8px;border:1px solid #cfe1ff;border-radius:8px;background:#f6f9ff;font-weight:bold;font-size:14px;overflow:hidden;text-overflow:ellipsis;}
+    button{background:linear-gradient(180deg,var(--blue-500),var(--blue-600));color:#fff;border:none;border-radius:8px;padding:8px 12px;font-weight:bold;cursor:pointer;transition:all 0.2s;}
+    button:hover{transform:translateY(-2px);box-shadow:0 4px 8px rgba(0,0,0,0.1);}
     footer{margin-top:20px;font-size:13px;color:var(--muted);text-align:center;}
-    .toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:#0f1729;color:#fff;padding:8px 12px;border-radius:20px;opacity:0;transition:.3s;}
+    .toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:#0f1729;color:#fff;padding:8px 12px;border-radius:20px;opacity:0;transition:.3s;z-index:1000;}
     .toast.show{opacity:1;}
+    .card-title{display:flex;align-items:center;justify-content:space-between;}
   </style>
 </head>
 <body>
@@ -53,30 +58,54 @@
 
       <!-- DANA -->
       <section class="card">
-        <div class="badge">DANA <span class="tag">E-Wallet</span></div>
-        <img class="qr" src="dana-qr.png" alt="QR DANA">
+        <div class="card-title">
+          <div class="badge">
+            <img class="logo" src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzIiIGhlaWdodD0iMzIiIHZpZXdCb3g9IjAgMCAzMiAzMiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3Qgd2lkdGg9IjMyIiBoZWlnaHQ9IjMyIiByeD0iOCIgZmlsbD0iIzAwODFGMyIvPgo8cGF0aCBkPSJNMTEuMDY0IDEwLjE5MkMxMS4wNjQgMTAuMTkyIDEwLjE5MiA5LjMxOTcgMTAuMTkyIDkuMzE5N0M5LjMxOTcgOC40NDc0IDguNDQ3NCA4LjQ0NzQgOC40NDc0IDguNDQ3NEw3LjU3NTEgOS4zMTk3QzcuNTc1MSA5LjMxOTcgOC40NDc0IDEwLjE5MiA4LjQ0NzQgMTAuMTkyQzguNDQ3NCAxMC4xOTIgNy41NzUxIDExLjA2NCA3LjU3NTEgMTEuMDY0QzcuNTc1MSAxMS4wNjQgOC40NDc0IDExLjkzNiA4LjQ0NzQgMTEuOTM2QzguNDQ3NCAxMS45MzYgNy41NzUxIDEyLjgwOSA3LjU3NTEgMTIuODA5QzcuNTc1MSAxMi44MDkgOC40NDc0IDEzLjY4MSA4LjQ0NzQgMTMuNjgxQzguNDQ3NCAxMy42ODEgNy41NzUxIDE0LjU1MyA3LjU3NTEgMTQuNTUzQzcuNTc1MSAxNC41NTMgOC40NDc0IDE1LjQyNiA4LjQ0NzQgMTUuNDI2QzguNDQ3NCAxNS40MjYgNy41NzUxIDE2LjI5OCA3LjU3NTEgMTYuMjk4QzcuNTc1MSAxNi4yOTggOC40NDc0IDE3LjE3IDguNDQ3NCAxNy4xN0M4LjQ0NzQgMTcuMTcgNy41NzUxIDE4LjA0MyA3LjU3NTEgMTguMDQzQzcuNTc1MSAxOC4wNDMgOC40NDc0IDE4LjkxNSA4LjQ0NzQgMTguOTE1QzguNDQ3NCAxOC45MTUgNy41NzUxIDE5Ljc4NyA3LjU3NTEgMTkuNzg3QzcuNTc1MSAxOS43ODcgOC40NDc0IDIwLjY2IDguNDQ3NCAyMC42NkM4LjQ0NzQgMjAuNjYgNy41NzUxIDIxLjUzMiA3LjU3NTEgMjEuNTMyQzcuNTc1MSAyMS41MzIgOC40NDc0IDIyLjQwNCA4LjQ0NzQgMjIuNDA0QzguNDQ3NCAyMi40MDQgNy41NzUxIDIzLjI3NiA3LjU3NTEgMjMuMjc2QzcuNTc1MSAyMy4yNzYgOC40NDc0IDI0LjE0OCA4LjQ0NzQgMjQuMTQ4QzguNDQ3NCAyNC4xNDggNy41NzUxIDI1LjAyMSA3LjU3NTEgMjUuMDIxQzcuNTc1MSAyNS4wMjEgOC40NDc0IDI1Ljg5MyA4LjQ0NzQgMjUuODkzQzguNDQ3NCAyNS44OTMgNy41NzUxIDI2Ljc2NSA3LjU3NTEgMjYuNzY1QzcuNTc1MSAyNi43NjUgOC40NDc0IDI3LjYzNyA4LjQ0NzQgMjcuNjM3QzguNDQ3NCAyNy42MzcgNy41NzUxIDI4LjUxIDcuNTc1MSAyOC41MUM3LjU3NTEgMjguNTEgOC40NDc0IDI5LjM4MiA4LjQ0NzQgMjkuMzgyQzguNDQ3NCAyOS4zODIgNy41NzUxIDMwLjI1NCA3LjU3NTEgMzAuMjU0QzcuNTc1MSAzMC4yNTQgOC40NDc0IDMxLjEyNiA4LjQ0NzQgMzEuMTI2SDIzLjU1M0MyMy41NTMgMzEuMTI2IDI0LjQyNiAzMC4yNTQgMjQuNDI2IDMwLjI1NEMyNC40MjYgMzAuMjU0IDIzLjU1MyAyOS4zODIgMjMuNTUzIDI5LjM4MkMyMy41NTMgMjkuMzgyIDI0LjQyNiAyOC41MSAyNC40MjYgMjguNTFDMjQuNDI2IDI4LjUxIDIzLjU1MyAyNy42MzcgMjMuNTUzIDI3LjYzN0MyMy41NTMgMjcuNjM3IDI0LjQyNiAyNi43NjUgMjQuNDI2IDI2Ljc2NUMyNC40MjYgMjYuNzY1IDIzLjU1MyAyNS44OTMgMjMuNTUzIDI1Ljg5M0MyMy41NTMgMjUuODkzIDI0LjQyNiAyNS4wMjEgMjQuNDI2IDI1LjAyMUMyNC40MjYgMjUuMDIxIDIzLjU1MyAyNC4xNDggMjMuNTUzIDI0LjE0OEMyMy41NTMgMjQuMTQ4IDI0LjQyNiAyMy4yNzYgMjQuNDI2IDIzLjI3NkMyNC40MjYgMjMuMjc2IDIzLjU1MyAyMi40MDQgMjMuNTUzIDIyLjQwNEMyMy41NTMgMjIuNDA0IDI0LjQyNiAyMS41MzIgMjQuNDI2IDIxLjUzMkMyNC40MjYgMjEuNTMyIDIzLjU1MyAyMC42NiAyMy41NTMgMjAuNjZDMjMuNTUzIDIwLjY2IDI0LjQyNiAxOS43ODcgMjQuNDI2IDE5Ljc4N0MyNC40MjYgMTkuNzg3IDIzLjU1MyAxOC45MTUgMjMuNTUzIDE4LjkxNUMyMy41NTMgMTguOTE1IDI0LjQyNiAxOC4wNDMgMjQuNDI2IDE4LjA0M0MyNC40MjYgMTguMDQzIDIzLjU1MyAxNy4xNyAyMy41NTMgMTcuMTdDMjMuNTUzIDE3LjE3IDI0LjQyNiAxNi4yOTggMjQuNDI2IDE2LjI5OEMyNC40MjYgMTYuMjk4IDIzLjU1MyAxNS40MjYgMjMuNTUzIDE1LjQyNkMyMy41NTMgMTUuNDI2IDI0LjQyNiAxNC41NTMgMjQuNDI2IDE0LjU1M0MyNC40MjYgMTQuNTUzIDIzLjU1MyAxMy42ODEgMjMuNTUzIDEzLjY4MUMyMy41NTMgMTMuNjgxIDI0LjQyNiAxMi44MDkgMjQuNDI2IDEyLjgwOUMyNC40MjYgMTIuODA5IDIzLjU1MyAxMS45MzYgMjMuNTUzIDExLjkzNkMyMy41NTMgMTEuOTM2IDI0LjQyNiAxMS4wNjQgMjQuNDI2IDExLjA2NEMyNC40yNiAxMS4wNjQgMjMuNTUzIDEwLjE5MiAyMy41NTMgMTAuMTkyQzIzLjU1MyAxMC4xOTIgMjQuNDI2IDkuMzE5NyAyNC40MjYgOS4zMTk3QzI0LjQyNiA5LjMxOTcgMjMuNTUzIDguNDQ3NCAyMy41NTMgOC40NDc0TDIyLjY4MSA5LjMxOTdDMjIuNjgxIDkuMzE5NyAyMS44MDggOC40NDc0IDIxLjgwOCA4LjQ0NzRDMjEuODA4IDguNDQ3NCAyMC45MzYgOS4zMTk3IDIwLjkzNiA5LjMxOTdDMjAuOTM2IDkuMzE5NyAyMC4wNjQgOC40NDc0IDIwLjA2NCA4LjQ0NzRDMjAuMDY0IDguNDQ3NCAxOS4xOTIgOS4zMTk3IDE5LjE5MiA5LjMxOTdDMTkuMTkyIDkuMzE5NyAxOC4zMTkgOC40NDc0IDE4LjMxOSA4LjQ0NzRDMTguMzE5IDguNDQ3NCAxNy40NDcgOS4zMTk3IDE3LjQ0NyA5LjMxOTdDMTcuNDQ3IDkuMzE5NyAxNi41NzUgOC40NDc0IDE2LjU3NSA4LjQ0NzRDMTYuNTc1IDguNDQ3NCAxNS43MDIgOS4zMTk3IDE1LjcwMiA5LjMxOTdDMTUuNzAyIDkuMzE5NyAxNC44MyA4LjQ0NzQgMTQuODMgOC40NDc0QzE0LjgzIDguNDQ3NCAxMy45NTcgOS4zMTk3IDEzLjk1NyA5LjMxOTdDMTMuOTU3IDkuMzE5NyAxMy4wODUgOC40NDc0IDEzLjA4NSA4LjQ0NzRDMTMuMDg1IDguNDQ3NCAxMi4yMTMgOS4zMTk3IDEyLjIxMyA5LjMxOTdDMTIuMjEzIDkuMzE5NyAxMS4zNDEgOC40NDc0IDExLjM0MSA4LjQ0NzRDMTEuMzQxIDguNDQ3NCAxMS4wNjQgMTAuMTkyIDExLjA2NCAxMC4xOTJaIiBmaWxsPSJ3aGl0ZSIvPgo8L3N2Zz4K" alt="Logo DANA">
+            DANA
+          </div>
+          <span class="tag">E-Wallet</span>
+        </div>
+        <div class="qr">
+          <div class="qr-placeholder">QR Code akan ditampilkan di sini</div>
+        </div>
         <div class="row">
-          <div class="num" id="num-dana" data-number="NO DANA">NO DANA</div>
+          <div class="num" id="num-dana" data-number="0881011892305">0881011892305</div>
           <button onclick="copyNumber('num-dana')">Copy</button>
         </div>
       </section>
 
       <!-- GoPay -->
       <section class="card">
-        <div class="badge">GoPay <span class="tag">E-Wallet</span></div>
-        <img class="qr" src="gopay-qr.png" alt="QR GoPay">
+        <div class="card-title">
+          <div class="badge">
+            <img class="logo" src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzIiIGhlaWdodD0iMzIiIHZpZXdCb3g9IjAgMCAzMiAzMiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3Qgd2lkdGg9IjMyIiBoZWlnaHQ9IjMyIiByeD0iOCIgZmlsbD0iIzAwQUJENyIvPgo8cGF0aCBkPSJNMTYgMTBDMTMuNzkwOSAxMCAxMiAxMS43OTA5IDEyIDE0VjE4QzEyIDIwLjIwOTEgMTMuNzkwOSAyMiAxNiAyMkMxOC4yMDkxIDIyIDIwIDIwLjIwOTEgMjAgMThWMTVDMjAgMTIuNzkwOSAxOC4yMDkxIDExIDE2IDExVjEwWiIgZmlsbD0id2hpdGUiLz4KPHBhdGggZD0iTTE2IDExQzE4LjIwOTEgMTEgMjAgMTIuNzkwOSAyMCAxNVYxOEMyMCAyMC4yMDkxIDE4LjIwOTEgMjIgMTYgMjJDMTMuNzkwOSAyMiAxMiAyMC4yMDkxIDEyIDE4VjE0QzEyIDExLjc5MDkgMTMuNzkwOSAxMCAxNiAxMFYxMVoiIGZpbGw9IiMwMEFCRDciLz4KPHBhdGggZD0iTTE2IDEwQzEzLjc5MDkgMTAgMTIgMTEuNzkwOSAxMiAxNFYxOEMxMiAyMC4yMDkxIDEzLjc5MDkgMjIgMTYgMjJDMTguMjA5MSAyMiAyMCAyMC4yMDkxIDIwIDE4VjE0QzIwIDExLjc5MDkgMTguMjA5MSAxMCAxNiAxMFoiIGZpbGw9IndoaXRlIi8+Cjwvc3ZnPgo=" alt="Logo GoPay">
+            GoPay
+          </div>
+          <span class="tag">E-Wallet</span>
+        </div>
+        <div class="qr">
+          <div class="qr-placeholder">QR Code akan ditampilkan di sini</div>
+        </div>
         <div class="row">
-          <div class="num" id="num-gopay" data-number="NO GOPAY">NO GOPAY</div>
+          <div class="num" id="num-gopay" data-number="083872735426">083872735426</div>
           <button onclick="copyNumber('num-gopay')">Copy</button>
         </div>
       </section>
 
       <!-- OVO -->
       <section class="card">
-        <div class="badge">OVO <span class="tag">E-Wallet</span></div>
-        <img class="qr" src="ovo-qr.png" alt="QR OVO">
+        <div class="card-title">
+          <div class="badge">
+            <img class="logo" src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzIiIGhlaWdodD0iMzIiIHZpZXdCb3g9IjAgMCAzMiAzMiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3Qgd2lkdGg9IjMyIiBoZWlnaHQ9IjMyIiByeD0iOCIgZmlsbD0iIj4KPHN0b3Agc3RvcC1jb2xvcj0iIzQzM0VBNyIgb2Zmc2V0PSIwIi8+CjxzdG9wIHN0b3AtY29sb3I9IiM2QjVCRjIiIG9mZnNldD0iMSIvPgo8L3JlY3Q+CjxwYXRoIGQ9Ik0xNiAxMEMxMy43OTA5IDEwIDEyIDExLjc5MDkgMTIgMTRWMTguMDAwMkMxMiAyMC4yMDkxIDEzLjc5MDkgMjIgMTYgMjJDMTguMjA5MSAyMiAyMCAyMC4yMDkxIDIwIDE4LjAwMDJWMTQuMDAwMkMyMCAxMS43OTA5IDE4LjIwOTEgMTAgMTYgMTBaIiBmaWxsPSJ3aGl0ZSIvPgo8L3N2Zz4K" alt="Logo OVO">
+            OVO
+          </div>
+          <span class="tag">E-Wallet</span>
+        </div>
+        <div class="qr">
+          <div class="qr-placeholder">QR Code akan ditampilkan di sini</div>
+        </div>
         <div class="row">
-          <div class="num" id="num-ovo" data-number="NOMER OVO">NOMER OVO</div>
+          <div class="num" id="num-ovo" data-number="083872735426">083872735426</div>
           <button onclick="copyNumber('num-ovo')">Copy</button>
         </div>
       </section>
@@ -112,8 +141,16 @@
 
     document.getElementById("btnShare").addEventListener("click", async ()=>{
       const data = {title: document.title, text:"Link Payment Dans4you", url:location.href};
-      if(navigator.share){ await navigator.share(data); }
-      else{ await navigator.clipboard.writeText(location.href); showToast("Link disalin"); }
+      if(navigator.share){ 
+        try {
+          await navigator.share(data);
+        } catch (err) {
+          console.log('Error sharing:', err);
+        }
+      } else { 
+        await navigator.clipboard.writeText(location.href); 
+        showToast("Link disalin"); 
+      }
     });
   </script>
 </body>
