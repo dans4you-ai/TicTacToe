@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Payment Dans4you</title>
+  <title>FurinaCloudX</title>
   <style>
     :root{
       --blue-900:#0a2540;
@@ -14,44 +14,66 @@
       --ink:#0b1324;
       --muted:#5b6b8a;
       --card:#ffffff;
+      --purple: #6c5ce7;
+      --green: #00b894;
     }
     *{box-sizing:border-box}
     body{
       margin:0;
-      font-family:sans-serif;
+      font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       background: linear-gradient(135deg,var(--blue-100),#f7fbff);
       color:var(--ink);
       min-height:100vh;
     }
     .wrap{max-width:900px;margin:auto;padding:24px;}
-    header{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;}
+    header{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;flex-wrap:wrap;gap:15px;}
+    .brand{display:flex;align-items:center;gap:12px;}
+    .logo{width:50px;height:50px;border-radius:10px;object-fit:contain;}
     h1{margin:0;font-size:24px;color:var(--blue-900);}
     .subtitle{color:var(--muted);font-size:14px}
-    .grid{display:grid;gap:16px;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));}
-    .card{background:#fff;border:1px solid #cfe1ff;padding:16px;border-radius:16px;box-shadow:0 4px 10px rgba(0,0,0,.1);}
+    .grid{display:grid;gap:20px;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));}
+    .card{background:#fff;border:1px solid #cfe1ff;padding:20px;border-radius:16px;box-shadow:0 4px 12px rgba(0,0,0,.08);transition:transform 0.3s, box-shadow 0.3s;}
+    .card:hover{transform:translateY(-5px);box-shadow:0 8px 16px rgba(0,0,0,.12);}
     .badge{font-weight:bold;color:var(--blue-900);display:flex;align-items:center;gap:8px;margin-bottom:10px;}
-    .logo{width:32px;height:32px;object-fit:contain;}
+    .ewallet-logo{width:32px;height:32px;object-fit:contain;}
     .tag{font-size:12px;background:var(--blue-100);padding:4px 8px;border-radius:12px;color:var(--blue-700);}
-    .qr{width:100%;aspect-ratio:1/1;border-radius:12px;background:#f3f6ff;margin:10px 0;display:flex;align-items:center;justify-content:center;}
-    .qr-placeholder{color:var(--muted);font-size:14px;text-align:center;}
-    .row{display:flex;gap:8px;align-items:center;}
-    .num{flex:1;padding:8px;border:1px solid #cfe1ff;border-radius:8px;background:#f6f9ff;font-weight:bold;font-size:14px;overflow:hidden;text-overflow:ellipsis;}
-    button{background:linear-gradient(180deg,var(--blue-500),var(--blue-600));color:#fff;border:none;border-radius:8px;padding:8px 12px;font-weight:bold;cursor:pointer;transition:all 0.2s;}
+    .qr{width:100%;aspect-ratio:1/1;border-radius:12px;background:#f3f6ff;margin:15px 0;display:flex;align-items:center;justify-content:center;overflow:hidden;}
+    .qr img{width:100%;height:100%;object-fit:contain;}
+    .row{display:flex;gap:8px;align-items:center;margin-top:15px;}
+    .num{flex:1;padding:10px 12px;border:1px solid #cfe1ff;border-radius:8px;background:#f6f9ff;font-weight:bold;font-size:14px;overflow:hidden;text-overflow:ellipsis;}
+    button{background:linear-gradient(180deg,var(--blue-500),var(--blue-600));color:#fff;border:none;border-radius:8px;padding:10px 15px;font-weight:bold;cursor:pointer;transition:all 0.2s;display:flex;align-items:center;gap:5px;}
     button:hover{transform:translateY(-2px);box-shadow:0 4px 8px rgba(0,0,0,0.1);}
-    footer{margin-top:20px;font-size:13px;color:var(--muted);text-align:center;}
-    .toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:#0f1729;color:#fff;padding:8px 12px;border-radius:20px;opacity:0;transition:.3s;z-index:1000;}
+    button:active{transform:translateY(0);}
+    footer{margin-top:30px;font-size:13px;color:var(--muted);text-align:center;padding-top:15px;border-top:1px solid #e1e8ff;}
+    .toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:#0f1729;color:#fff;padding:10px 16px;border-radius:20px;opacity:0;transition:.3s;z-index:1000;font-size:14px;}
     .toast.show{opacity:1;}
     .card-title{display:flex;align-items:center;justify-content:space-between;}
+    .payment-type{font-size:12px;color:var(--muted);margin-top:5px;}
+    .instructions{font-size:12px;color:var(--muted);margin-top:10px;line-height:1.4;}
+    
+    @media (max-width: 600px) {
+      .grid{grid-template-columns:1fr;}
+      header{flex-direction:column;align-items:flex-start;}
+      .brand{flex-direction:column;align-items:flex-start;gap:8px;}
+    }
   </style>
 </head>
 <body>
   <div class="wrap">
     <header>
-      <div>
-        <h1>Payment Dans4you</h1>
-        <div class="subtitle">Metode pembayaran: DANA • GoPay • OVO</div>
+      <div class="brand">
+        <img class="logo" src="https://files.catbox.moe/ec0vdq.png" alt="FurinaCloudX Logo">
+        <div>
+          <h1>FurinaCloudX</h1>
+          <div class="subtitle">Metode pembayaran: DANA • GoPay • ShopeePay • SeaBank</div>
+        </div>
       </div>
-      <button id="btnShare">Bagikan Link</button>
+      <button id="btnShare">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M18 16.08C17.24 16.08 16.56 16.38 16.04 16.85L8.91 12.7C8.96 12.47 9 12.24 9 12C9 11.76 8.96 11.53 8.91 11.3L15.96 7.19C16.5 7.69 17.21 8 18 8C19.66 8 21 6.66 21 5C21 3.34 19.66 2 18 2C16.34 2 15 3.34 15 5C15 5.24 15.04 5.47 15.09 5.7L8.04 9.81C7.5 9.31 6.79 9 6 9C4.34 9 3 10.34 3 12C3 13.66 4.34 15 6 15C6.79 15 7.5 14.69 8.04 14.19L15.16 18.35C15.11 18.56 15.08 18.78 15.08 19C15.08 20.61 16.39 21.92 18 21.92C19.61 21.92 20.92 20.61 20.92 19C20.92 17.39 19.61 16.08 18 16.08Z" fill="white"/>
+        </svg>
+        Bagikan Link
+      </button>
     </header>
 
     <main class="grid">
@@ -60,17 +82,24 @@
       <section class="card">
         <div class="card-title">
           <div class="badge">
-            <img class="logo" src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzIiIGhlaWdodD0iMzIiIHZpZXdCb3g9IjAgMCAzMiAzMiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3Qgd2lkdGg9IjMyIiBoZWlnaHQ9IjMyIiByeD0iOCIgZmlsbD0iIzAwODFGMyIvPgo8cGF0aCBkPSJNMTEuMDY0IDEwLjE5MkMxMS4wNjQgMTAuMTkyIDEwLjE5MiA5LjMxOTcgMTAuMTkyIDkuMzE5N0M5LjMxOTcgOC40NDc0IDguNDQ3NCA4LjQ0NzQgOC40NDc0IDguNDQ3NEw3LjU3NTEgOS4zMTk3QzcuNTc1MSA5LjMxOTcgOC40NDc0IDEwLjE5MiA4LjQ0NzQgMTAuMTkyQzguNDQ3NCAxMC4xOTIgNy41NzUxIDExLjA2NCA3LjU3NTEgMTEuMDY0QzcuNTc1MSAxMS4wNjQgOC40NDc0IDExLjkzNiA4LjQ0NzQgMTEuOTM2QzguNDQ3NCAxMS45MzYgNy41NzUxIDEyLjgwOSA3LjU3NTEgMTIuODA5QzcuNTc1MSAxMi44MDkgOC40NDc0IDEzLjY4MSA4LjQ0NzQgMTMuNjgxQzguNDQ3NCAxMy42ODEgNy41NzUxIDE0LjU1MyA3LjU3NTEgMTQuNTUzQzcuNTc1MSAxNC41NTMgOC40NDc0IDE1LjQyNiA4LjQ0NzQgMTUuNDI2QzguNDQ3NCAxNS40MjYgNy41NzUxIDE2LjI5OCA3LjU3NTEgMTYuMjk4QzcuNTc1MSAxNi4yOTggOC40NDc0IDE3LjE3IDguNDQ3NCAxNy4xN0M4LjQ0NzQgMTcuMTcgNy41NzUxIDE4LjA0MyA3LjU3NTEgMTguMDQzQzcuNTc1MSAxOC4wNDMgOC40NDc0IDE4LjkxNSA4LjQ0NzQgMTguOTE1QzguNDQ3NCAxOC45MTUgNy41NzUxIDE5Ljc4NyA3LjU3NTEgMTkuNzg3QzcuNTc1MSAxOS43ODcgOC40NDc0IDIwLjY2IDguNDQ3NCAyMC42NkM4LjQ0NzQgMjAuNjYgNy41NzUxIDIxLjUzMiA3LjU3NTEgMjEuNTMyQzcuNTc1MSAyMS41MzIgOC40NDc0IDIyLjQwNCA4LjQ0NzQgMjIuNDA0QzguNDQ3NCAyMi40MDQgNy41NzUxIDIzLjI3NiA3LjU3NTEgMjMuMjc2QzcuNTc1MSAyMy4yNzYgOC40NDc0IDI0LjE0OCA4LjQ0NzQgMjQuMTQ4QzguNDQ3NCAyNC4xNDggNy41NzUxIDI1LjAyMSA3LjU3NTEgMjUuMDIxQzcuNTc1MSAyNS4wMjEgOC40NDc0IDI1Ljg5MyA4LjQ0NzQgMjUuODkzQzguNDQ3NCAyNS44OTMgNy41NzUxIDI2Ljc2NSA3LjU3NTEgMjYuNzY1QzcuNTc1MSAyNi43NjUgOC40NDc0IDI3LjYzNyA4LjQ0NzQgMjcuNjM3QzguNDQ3NCAyNy42MzcgNy41NzUxIDI4LjUxIDcuNTc1MSAyOC41MUM3LjU3NTEgMjguNTEgOC40NDc0IDI5LjM4MiA4LjQ0NzQgMjkuMzgyQzguNDQ3NCAyOS4zODIgNy41NzUxIDMwLjI1NCA3LjU3NTEgMzAuMjU0QzcuNTc1MSAzMC4yNTQgOC40NDc0IDMxLjEyNiA4LjQ0NzQgMzEuMTI2SDIzLjU1M0MyMy41NTMgMzEuMTI2IDI0LjQyNiAzMC4yNTQgMjQuNDI2IDMwLjI1NEMyNC40MjYgMzAuMjU0IDIzLjU1MyAyOS4zODIgMjMuNTUzIDI5LjM4MkMyMy41NTMgMjkuMzgyIDI0LjQyNiAyOC41MSAyNC40MjYgMjguNTFDMjQuNDI2IDI4LjUxIDIzLjU1MyAyNy42MzcgMjMuNTUzIDI3LjYzN0MyMy41NTMgMjcuNjM3IDI0LjQyNiAyNi43NjUgMjQuNDI2IDI2Ljc2NUMyNC40MjYgMjYuNzY1IDIzLjU1MyAyNS44OTMgMjMuNTUzIDI1Ljg5M0MyMy41NTMgMjUuODkzIDI0LjQyNiAyNS4wMjEgMjQuNDI2IDI1LjAyMUMyNC40MjYgMjUuMDIxIDIzLjU1MyAyNC4xNDggMjMuNTUzIDI0LjE0OEMyMy41NTMgMjQuMTQ4IDI0LjQyNiAyMy4yNzYgMjQuNDI2IDIzLjI3NkMyNC40MjYgMjMuMjc2IDIzLjU1MyAyMi40MDQgMjMuNTUzIDIyLjQwNEMyMy41NTMgMjIuNDA0IDI0LjQyNiAyMS41MzIgMjQuNDI2IDIxLjUzMkMyNC40MjYgMjEuNTMyIDIzLjU1MyAyMC42NiAyMy41NTMgMjAuNjZDMjMuNTUzIDIwLjY2IDI0LjQyNiAxOS43ODcgMjQuNDI2IDE5Ljc4N0MyNC40MjYgMTkuNzg3IDIzLjU1MyAxOC45MTUgMjMuNTUzIDE4LjkxNUMyMy41NTMgMTguOTE1IDI0LjQyNiAxOC4wNDMgMjQuNDI2IDE4LjA0M0MyNC40MjYgMTguMDQzIDIzLjU1MyAxNy4xNyAyMy41NTMgMTcuMTdDMjMuNTUzIDE3LjE3IDI0LjQyNiAxNi4yOTggMjQuNDI2IDE2LjI5OEMyNC40MjYgMTYuMjk4IDIzLjU1MyAxNS40MjYgMjMuNTUzIDE1LjQyNkMyMy41NTMgMTUuNDI2IDI0LjQyNiAxNC41NTMgMjQuNDI2IDE0LjU1M0MyNC40MjYgMTQuNTUzIDIzLjU1MyAxMy42ODEgMjMuNTUzIDEzLjY4MUMyMy41NTMgMTMuNjgxIDI0LjQyNiAxMi44MDkgMjQuNDI2IDEyLjgwOUMyNC40MjYgMTIuODA5IDIzLjU1MyAxMS45MzYgMjMuNTUzIDExLjkzNkMyMy41NTMgMTEuOTM2IDI0LjQyNiAxMS4wNjQgMjQuNDI2IDExLjA2NEMyNC40yNiAxMS4wNjQgMjMuNTUzIDEwLjE5MiAyMy41NTMgMTAuMTkyQzIzLjU1MyAxMC4xOTIgMjQuNDI2IDkuMzE5NyAyNC40MjYgOS4zMTk3QzI0LjQyNiA5LjMxOTcgMjMuNTUzIDguNDQ3NCAyMy41NTMgOC40NDc0TDIyLjY4MSA5LjMxOTdDMjIuNjgxIDkuMzE5NyAyMS44MDggOC40NDc0IDIxLjgwOCA4LjQ0NzRDMjEuODA4IDguNDQ3NCAyMC45MzYgOS4zMTk3IDIwLjkzNiA5LjMxOTdDMjAuOTM2IDkuMzE5NyAyMC4wNjQgOC40NDc0IDIwLjA2NCA4LjQ0NzRDMjAuMDY0IDguNDQ3NCAxOS4xOTIgOS4zMTk3IDE5LjE5MiA5LjMxOTdDMTkuMTkyIDkuMzE5NyAxOC4zMTkgOC40NDc0IDE4LjMxOSA4LjQ0NzRDMTguMzE5IDguNDQ3NCAxNy40NDcgOS4zMTk3IDE3LjQ0NyA5LjMxOTdDMTcuNDQ3IDkuMzE5NyAxNi41NzUgOC40NDc0IDE2LjU3NSA4LjQ0NzRDMTYuNTc1IDguNDQ3NCAxNS43MDIgOS4zMTk3IDE1LjcwMiA5LjMxOTdDMTUuNzAyIDkuMzE5NyAxNC44MyA4LjQ0NzQgMTQuODMgOC40NDc0QzE0LjgzIDguNDQ3NCAxMy45NTcgOS4zMTk3IDEzLjk1NyA5LjMxOTdDMTMuOTU3IDkuMzE5NyAxMy4wODUgOC40NDc0IDEzLjA4NSA4LjQ0NzRDMTMuMDg1IDguNDQ3NCAxMi4yMTMgOS4zMTk3IDEyLjIxMyA5LjMxOTdDMTIuMjEzIDkuMzE5NyAxMS4zNDEgOC40NDc0IDExLjM0MSA4LjQ0NzRDMTEuMzQxIDguNDQ3NCAxMS4wNjQgMTAuMTkyIDExLjA2NCAxMC4xOTJaIiBmaWxsPSJ3aGl0ZSIvPgo8L3N2Zz4K" alt="Logo DANA">
+            <img class="ewallet-logo" src="https://files.catbox.moe/p7tbdp.jpg" alt="Logo DANA">
             DANA
           </div>
           <span class="tag">E-Wallet</span>
         </div>
+        <div class="payment-type">Transfer ke nomor DANA</div>
         <div class="qr">
-          <div class="qr-placeholder">QR Code akan ditampilkan di sini</div>
+          <img src="https://files.catbox.moe/p7tbdp.jpg" alt="QR DANA">
         </div>
+        <div class="instructions">Scan QR code di atas atau salin nomor DANA di bawah</div>
         <div class="row">
           <div class="num" id="num-dana" data-number="0881011892305">0881011892305</div>
-          <button onclick="copyNumber('num-dana')">Copy</button>
+          <button onclick="copyNumber('num-dana')">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M16 1H4C2.9 1 2 1.9 2 3V17H4V3H16V1ZM19 5H8C6.9 5 6 5.9 6 7V21C6 22.1 6.9 23 8 23H19C20.1 23 21 22.1 21 21V7C21 5.9 20.1 5 19 5ZM19 21H8V7H19V21Z" fill="white"/>
+            </svg>
+            Copy
+          </button>
         </div>
       </section>
 
@@ -78,42 +107,81 @@
       <section class="card">
         <div class="card-title">
           <div class="badge">
-            <img class="logo" src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzIiIGhlaWdodD0iMzIiIHZpZXdCb3g9IjAgMCAzMiAzMiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3Qgd2lkdGg9IjMyIiBoZWlnaHQ9IjMyIiByeD0iOCIgZmlsbD0iIzAwQUJENyIvPgo8cGF0aCBkPSJNMTYgMTBDMTMuNzkwOSAxMCAxMiAxMS43OTA5IDEyIDE0VjE4QzEyIDIwLjIwOTEgMTMuNzkwOSAyMiAxNiAyMkMxOC4yMDkxIDIyIDIwIDIwLjIwOTEgMjAgMThWMTVDMjAgMTIuNzkwOSAxOC4yMDkxIDExIDE2IDExVjEwWiIgZmlsbD0id2hpdGUiLz4KPHBhdGggZD0iTTE2IDExQzE4LjIwOTEgMTEgMjAgMTIuNzkwOSAyMCAxNVYxOEMyMCAyMC4yMDkxIDE4LjIwOTEgMjIgMTYgMjJDMTMuNzkwOSAyMiAxMiAyMC4yMDkxIDEyIDE4VjE0QzEyIDExLjc5MDkgMTMuNzkwOSAxMCAxNiAxMFYxMVoiIGZpbGw9IiMwMEFCRDciLz4KPHBhdGggZD0iTTE2IDEwQzEzLjc5MDkgMTAgMTIgMTEuNzkwOSAxMiAxNFYxOEMxMiAyMC4yMDkxIDEzLjc5MDkgMjIgMTYgMjJDMTguMjA5MSAyMiAyMCAyMC4yMDkxIDIwIDE4VjE0QzIwIDExLjc5MDkgMTguMjA5MSAxMCAxNiAxMFoiIGZpbGw9IndoaXRlIi8+Cjwvc3ZnPgo=" alt="Logo GoPay">
+            <img class="ewallet-logo" src="https://files.catbox.moe/ap6gyz.jpg" alt="Logo GoPay">
             GoPay
           </div>
           <span class="tag">E-Wallet</span>
         </div>
+        <div class="payment-type">Transfer ke nomor GoPay</div>
         <div class="qr">
-          <div class="qr-placeholder">QR Code akan ditampilkan di sini</div>
+          <img src="https://files.catbox.moe/ap6gyz.jpg" alt="QR GoPay">
         </div>
+        <div class="instructions">Scan QR code di atas atau salin nomor GoPay di bawah</div>
         <div class="row">
           <div class="num" id="num-gopay" data-number="083872735426">083872735426</div>
-          <button onclick="copyNumber('num-gopay')">Copy</button>
+          <button onclick="copyNumber('num-gopay')">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M16 1H4C2.9 1 2 1.9 2 3V17H4V3H16V1ZM19 5H8C6.9 5 6 5.9 6 7V21C6 22.1 6.9 23 8 23H19C20.1 23 21 22.1 21 21V7C21 5.9 20.1 5 19 5ZM19 21H8V7H19V21Z" fill="white"/>
+            </svg>
+            Copy
+          </button>
         </div>
       </section>
 
-      <!-- OVO -->
+      <!-- ShopeePay -->
       <section class="card">
         <div class="card-title">
           <div class="badge">
-            <img class="logo" src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzIiIGhlaWdodD0iMzIiIHZpZXdCb3g9IjAgMCAzMiAzMiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3Qgd2lkdGg9IjMyIiBoZWlnaHQ9IjMyIiByeD0iOCIgZmlsbD0iIj4KPHN0b3Agc3RvcC1jb2xvcj0iIzQzM0VBNyIgb2Zmc2V0PSIwIi8+CjxzdG9wIHN0b3AtY29sb3I9IiM2QjVCRjIiIG9mZnNldD0iMSIvPgo8L3JlY3Q+CjxwYXRoIGQ9Ik0xNiAxMEMxMy43OTA5IDEwIDEyIDExLjc5MDkgMTIgMTRWMTguMDAwMkMxMiAyMC4yMDkxIDEzLjc5MDkgMjIgMTYgMjJDMTguMjA5MSAyMiAyMCAyMC4yMDkxIDIwIDE4LjAwMDJWMTQuMDAwMkMyMCAxMS43OTA5IDE4LjIwOTEgMTAgMTYgMTBaIiBmaWxsPSJ3aGl0ZSIvPgo8L3N2Zz4K" alt="Logo OVO">
-            OVO
+            <img class="ewallet-logo" src="https://files.catbox.moe/6aanm2.png" alt="Logo ShopeePay">
+            ShopeePay
           </div>
           <span class="tag">E-Wallet</span>
         </div>
+        <div class="payment-type">Transfer ke nomor ShopeePay</div>
         <div class="qr">
-          <div class="qr-placeholder">QR Code akan ditampilkan di sini</div>
+          <img src="https://files.catbox.moe/6aanm2.png" alt="QR ShopeePay">
         </div>
+        <div class="instructions">Scan QR code di atas atau salin nomor ShopeePay di bawah</div>
         <div class="row">
-          <div class="num" id="num-ovo" data-number="083872735426">083872735426</div>
-          <button onclick="copyNumber('num-ovo')">Copy</button>
+          <div class="num" id="num-shopeepay" data-number="087735073038">087735073038</div>
+          <button onclick="copyNumber('num-shopeepay')">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M16 1H4C2.9 1 2 1.9 2 3V17H4V3H16V1ZM19 5H8C6.9 5 6 5.9 6 7V21C6 22.1 6.9 23 8 23H19C20.1 23 21 22.1 21 21V7C21 5.9 20.1 5 19 5ZM19 21H8V7H19V21Z" fill="white"/>
+            </svg>
+            Copy
+          </button>
+        </div>
+      </section>
+
+      <!-- SeaBank -->
+      <section class="card">
+        <div class="card-title">
+          <div class="badge">
+            <img class="ewallet-logo" src="https://files.catbox.moe/meqzvg.jpg" alt="Logo SeaBank">
+            SeaBank
+          </div>
+          <span class="tag">Bank</span>
+        </div>
+        <div class="payment-type">Transfer Bank SeaBank</div>
+        <div class="qr">
+          <img src="https://files.catbox.moe/meqzvg.jpg" alt="QR SeaBank">
+        </div>
+        <div class="instructions">Scan QR code di atas atau salin nomor rekening di bawah</div>
+        <div class="row">
+          <div class="num" id="num-seabank" data-number="901019568318">901019568318</div>
+          <button onclick="copyNumber('num-seabank')">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M16 1H4C2.9 1 2 1.9 2 3V17H4V3H16V1ZM19 5H8C6.9 5 6 5.9 6 7V21C6 22.1 6.9 23 8 23H19C20.1 23 21 22.1 21 21V7C21 5.9 20.1 5 19 5ZM19 21H8V7H19V21Z" fill="white"/>
+            </svg>
+            Copy
+          </button>
         </div>
       </section>
 
     </main>
 
     <footer>
-      © <span id="year"></span> Payment Dans4you • Pastikan nama penerima sesuai sebelum transfer.
+      © <span id="year"></span> FurinaCloudX • Pastikan nama penerima sesuai sebelum transfer.
     </footer>
   </div>
 
@@ -127,6 +195,9 @@
       const text = el.dataset.number;
       navigator.clipboard.writeText(text).then(()=>{
         showToast("Nomor disalin: " + text);
+      }).catch(err => {
+        console.error('Gagal menyalin teks: ', err);
+        showToast("Gagal menyalin nomor");
       });
     }
 
@@ -136,11 +207,11 @@
       toast.textContent = msg;
       toast.classList.add("show");
       clearTimeout(timer);
-      timer = setTimeout(()=>toast.classList.remove("show"),1500);
+      timer = setTimeout(()=>toast.classList.remove("show"),2000);
     }
 
     document.getElementById("btnShare").addEventListener("click", async ()=>{
-      const data = {title: document.title, text:"Link Payment Dans4you", url:location.href};
+      const data = {title: document.title, text:"Link Payment FurinaCloudX", url:location.href};
       if(navigator.share){ 
         try {
           await navigator.share(data);
@@ -148,8 +219,13 @@
           console.log('Error sharing:', err);
         }
       } else { 
-        await navigator.clipboard.writeText(location.href); 
-        showToast("Link disalin"); 
+        try {
+          await navigator.clipboard.writeText(location.href); 
+          showToast("Link disalin ke clipboard"); 
+        } catch (err) {
+          console.error('Gagal menyalin link: ', err);
+          showToast("Gagal menyalin link");
+        }
       }
     });
   </script>
