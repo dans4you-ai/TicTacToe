@@ -37,13 +37,15 @@
     .badge{font-weight:bold;color:var(--blue-900);display:flex;align-items:center;gap:8px;margin-bottom:10px;}
     .ewallet-logo{width:32px;height:32px;object-fit:contain;}
     .tag{font-size:12px;background:var(--blue-100);padding:4px 8px;border-radius:12px;color:var(--blue-700);}
-    .qr{width:100%;aspect-ratio:1/1;border-radius:12px;background:#f3f6ff;margin:15px 0;display:flex;align-items:center;justify-content:center;overflow:hidden;}
-    .qr img{width:100%;height:100%;object-fit:contain;}
-    .row{display:flex;gap:8px;align-items:center;margin-top:15px;}
-    .num{flex:1;padding:10px 12px;border:1px solid #cfe1ff;border-radius:8px;background:#f6f9ff;font-weight:bold;font-size:14px;overflow:hidden;text-overflow:ellipsis;}
-    button{background:linear-gradient(180deg,var(--blue-500),var(--blue-600));color:#fff;border:none;border-radius:8px;padding:10px 15px;font-weight:bold;cursor:pointer;transition:all 0.2s;display:flex;align-items:center;gap:5px;}
-    button:hover{transform:translateY(-2px);box-shadow:0 4px 8px rgba(0,0,0,0.1);}
-    button:active{transform:translateY(0);}
+    .payment-info{display:flex;flex-direction:column;gap:15px;margin-top:15px;}
+    .payment-method{display:flex;align-items:center;gap:10px;padding:12px;background:#f8faff;border-radius:10px;}
+    .payment-icon{width:24px;height:24px;object-fit:contain;}
+    .payment-details{flex:1;}
+    .payment-name{font-weight:600;font-size:14px;color:var(--blue-900);}
+    .payment-number{font-size:15px;font-weight:bold;color:var(--blue-700);margin-top:4px;}
+    .copy-btn{background:linear-gradient(180deg,var(--blue-500),var(--blue-600));color:#fff;border:none;border-radius:6px;padding:8px 12px;font-weight:bold;cursor:pointer;transition:all 0.2s;display:flex;align-items:center;gap:5px;font-size:13px;}
+    .copy-btn:hover{transform:translateY(-2px);box-shadow:0 4px 8px rgba(0,0,0,0.1);}
+    .copy-btn:active{transform:translateY(0);}
     footer{margin-top:30px;font-size:13px;color:var(--muted);text-align:center;padding-top:15px;border-top:1px solid #e1e8ff;}
     .toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:#0f1729;color:#fff;padding:10px 16px;border-radius:20px;opacity:0;transition:.3s;z-index:1000;font-size:14px;}
     .toast.show{opacity:1;}
@@ -55,6 +57,7 @@
       .grid{grid-template-columns:1fr;}
       header{flex-direction:column;align-items:flex-start;}
       .brand{flex-direction:column;align-items:flex-start;gap:8px;}
+      .payment-method{flex-direction:column;text-align:center;}
     }
   </style>
 </head>
@@ -68,7 +71,7 @@
           <div class="subtitle">Metode pembayaran: DANA • GoPay • ShopeePay • SeaBank</div>
         </div>
       </div>
-      <button id="btnShare">
+      <button id="btnShare" class="copy-btn">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path d="M18 16.08C17.24 16.08 16.56 16.38 16.04 16.85L8.91 12.7C8.96 12.47 9 12.24 9 12C9 11.76 8.96 11.53 8.91 11.3L15.96 7.19C16.5 7.69 17.21 8 18 8C19.66 8 21 6.66 21 5C21 3.34 19.66 2 18 2C16.34 2 15 3.34 15 5C15 5.24 15.04 5.47 15.09 5.7L8.04 9.81C7.5 9.31 6.79 9 6 9C4.34 9 3 10.34 3 12C3 13.66 4.34 15 6 15C6.79 15 7.5 14.69 8.04 14.19L15.16 18.35C15.11 18.56 15.08 18.78 15.08 19C15.08 20.61 16.39 21.92 18 21.92C19.61 21.92 20.92 20.61 20.92 19C20.92 17.39 19.61 16.08 18 16.08Z" fill="white"/>
         </svg>
@@ -88,18 +91,22 @@
           <span class="tag">E-Wallet</span>
         </div>
         <div class="payment-type">Transfer ke nomor DANA</div>
-        <div class="qr">
-          <img src="https://files.catbox.moe/p7tbdp.jpg" alt="QR DANA">
-        </div>
-        <div class="instructions">Scan QR code di atas atau salin nomor DANA di bawah</div>
-        <div class="row">
-          <div class="num" id="num-dana" data-number="0881011892305">0881011892305</div>
-          <button onclick="copyNumber('num-dana')">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M16 1H4C2.9 1 2 1.9 2 3V17H4V3H16V1ZM19 5H8C6.9 5 6 5.9 6 7V21C6 22.1 6.9 23 8 23H19C20.1 23 21 22.1 21 21V7C21 5.9 20.1 5 19 5ZM19 21H8V7H19V21Z" fill="white"/>
-            </svg>
-            Copy
-          </button>
+        <div class="instructions">Salin nomor DANA di bawah untuk melakukan pembayaran</div>
+        
+        <div class="payment-info">
+          <div class="payment-method">
+            <img class="payment-icon" src="https://files.catbox.moe/p7tbdp.jpg" alt="DANA">
+            <div class="payment-details">
+              <div class="payment-name">DANA</div>
+              <div class="payment-number" id="num-dana" data-number="0881011892305">0881011892305</div>
+            </div>
+            <button class="copy-btn" onclick="copyNumber('num-dana')">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M16 1H4C2.9 1 2 1.9 2 3V17H4V3H16V1ZM19 5H8C6.9 5 6 5.9 6 7V21C6 22.1 6.9 23 8 23H19C20.1 23 21 22.1 21 21V7C21 5.9 20.1 5 19 5ZM19 21H8V7H19V21Z" fill="white"/>
+              </svg>
+              Salin
+            </button>
+          </div>
         </div>
       </section>
 
@@ -113,18 +120,22 @@
           <span class="tag">E-Wallet</span>
         </div>
         <div class="payment-type">Transfer ke nomor GoPay</div>
-        <div class="qr">
-          <img src="https://files.catbox.moe/ap6gyz.jpg" alt="QR GoPay">
-        </div>
-        <div class="instructions">Scan QR code di atas atau salin nomor GoPay di bawah</div>
-        <div class="row">
-          <div class="num" id="num-gopay" data-number="083872735426">083872735426</div>
-          <button onclick="copyNumber('num-gopay')">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M16 1H4C2.9 1 2 1.9 2 3V17H4V3H16V1ZM19 5H8C6.9 5 6 5.9 6 7V21C6 22.1 6.9 23 8 23H19C20.1 23 21 22.1 21 21V7C21 5.9 20.1 5 19 5ZM19 21H8V7H19V21Z" fill="white"/>
-            </svg>
-            Copy
-          </button>
+        <div class="instructions">Salin nomor GoPay di bawah untuk melakukan pembayaran</div>
+        
+        <div class="payment-info">
+          <div class="payment-method">
+            <img class="payment-icon" src="https://files.catbox.moe/ap6gyz.jpg" alt="GoPay">
+            <div class="payment-details">
+              <div class="payment-name">GoPay</div>
+              <div class="payment-number" id="num-gopay" data-number="083872735426">083872735426</div>
+            </div>
+            <button class="copy-btn" onclick="copyNumber('num-gopay')">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M16 1H4C2.9 1 2 1.9 2 3V17H4V3H16V1ZM19 5H8C6.9 5 6 5.9 6 7V21C6 22.1 6.9 23 8 23H19C20.1 23 21 22.1 21 21V7C21 5.9 20.1 5 19 5ZM19 21H8V7H19V21Z" fill="white"/>
+              </svg>
+              Salin
+            </button>
+          </div>
         </div>
       </section>
 
@@ -138,18 +149,22 @@
           <span class="tag">E-Wallet</span>
         </div>
         <div class="payment-type">Transfer ke nomor ShopeePay</div>
-        <div class="qr">
-          <img src="https://files.catbox.moe/6aanm2.png" alt="QR ShopeePay">
-        </div>
-        <div class="instructions">Scan QR code di atas atau salin nomor ShopeePay di bawah</div>
-        <div class="row">
-          <div class="num" id="num-shopeepay" data-number="087735073038">087735073038</div>
-          <button onclick="copyNumber('num-shopeepay')">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M16 1H4C2.9 1 2 1.9 2 3V17H4V3H16V1ZM19 5H8C6.9 5 6 5.9 6 7V21C6 22.1 6.9 23 8 23H19C20.1 23 21 22.1 21 21V7C21 5.9 20.1 5 19 5ZM19 21H8V7H19V21Z" fill="white"/>
-            </svg>
-            Copy
-          </button>
+        <div class="instructions">Salin nomor ShopeePay di bawah untuk melakukan pembayaran</div>
+        
+        <div class="payment-info">
+          <div class="payment-method">
+            <img class="payment-icon" src="https://files.catbox.moe/6aanm2.png" alt="ShopeePay">
+            <div class="payment-details">
+              <div class="payment-name">ShopeePay</div>
+              <div class="payment-number" id="num-shopeepay" data-number="087735073038">087735073038</div>
+            </div>
+            <button class="copy-btn" onclick="copyNumber('num-shopeepay')">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M16 1H4C2.9 1 2 1.9 2 3V17H4V3H16V1ZM19 5H8C6.9 5 6 5.9 6 7V21C6 22.1 6.9 23 8 23H19C20.1 23 21 22.1 21 21V7C21 5.9 20.1 5 19 5ZM19 21H8V7H19V21Z" fill="white"/>
+              </svg>
+              Salin
+            </button>
+          </div>
         </div>
       </section>
 
@@ -163,18 +178,22 @@
           <span class="tag">Bank</span>
         </div>
         <div class="payment-type">Transfer Bank SeaBank</div>
-        <div class="qr">
-          <img src="https://files.catbox.moe/meqzvg.jpg" alt="QR SeaBank">
-        </div>
-        <div class="instructions">Scan QR code di atas atau salin nomor rekening di bawah</div>
-        <div class="row">
-          <div class="num" id="num-seabank" data-number="901019568318">901019568318</div>
-          <button onclick="copyNumber('num-seabank')">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M16 1H4C2.9 1 2 1.9 2 3V17H4V3H16V1ZM19 5H8C6.9 5 6 5.9 6 7V21C6 22.1 6.9 23 8 23H19C20.1 23 21 22.1 21 21V7C21 5.9 20.1 5 19 5ZM19 21H8V7H19V21Z" fill="white"/>
-            </svg>
-            Copy
-          </button>
+        <div class="instructions">Salin nomor rekening di bawah untuk melakukan pembayaran</div>
+        
+        <div class="payment-info">
+          <div class="payment-method">
+            <img class="payment-icon" src="https://files.catbox.moe/meqzvg.jpg" alt="SeaBank">
+            <div class="payment-details">
+              <div class="payment-name">SeaBank</div>
+              <div class="payment-number" id="num-seabank" data-number="901019568318">901019568318</div>
+            </div>
+            <button class="copy-btn" onclick="copyNumber('num-seabank')">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M16 1H4C2.9 1 2 1.9 2 3V17H4V3H16V1ZM19 5H8C6.9 5 6 5.9 6 7V21C6 22.1 6.9 23 8 23H19C20.1 23 21 22.1 21 21V7C21 5.9 20.1 5 19 5ZM19 21H8V7H19V21Z" fill="white"/>
+              </svg>
+              Salin
+            </button>
+          </div>
         </div>
       </section>
 
